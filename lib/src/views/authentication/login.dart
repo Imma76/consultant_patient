@@ -37,7 +37,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       padding: const EdgeInsets.only(bottom:20.0),
                       child: Image.asset('assets/app_logo.png',width:87.w, height:77.h),
                     ),
-                    Text('Consultant Sign in',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 24.sp,fontWeight: FontWeight.w600),),
+                    Text('Patient Sign in',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 24.sp,fontWeight: FontWeight.w600),),
                   ],
                 ),Gap(104.h),
                 Text('Email',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
