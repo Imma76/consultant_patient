@@ -1,6 +1,7 @@
 import 'package:consult_patient/firebase_options.dart';
 import 'package:consult_patient/src/routes/routes.dart';
 import 'package:consult_patient/src/views/authentication/login.dart';
+import 'package:consult_patient/src/views/authentication/sign_up.dart';
 import 'package:consult_patient/src/views/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Consultant patient',
             routes:routes,
-            initialRoute: LoginScreen.id,
+            initialRoute: SignUpScreen.id,
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
