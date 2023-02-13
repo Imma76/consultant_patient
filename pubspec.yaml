@@ -38,6 +38,7 @@ dependencies:
   cloud_firestore:
   firebase_auth:
   firebase_core:
+  google_fonts:
   flutter_screenutil:
   flutter_riverpod:
   flutter_launcher_icons:
