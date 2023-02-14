@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../themes/app_theme.dart';
+import '../../utils/widgets/app_bar.dart';
 
 
 class ConsultantProfile extends ConsumerStatefulWidget {
@@ -21,22 +22,26 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:  AppTheme.white,
+      backgroundColor: AppTheme.white,
       appBar: PrimaryAppBar(context),
       body: Padding(
-        padding: const EdgeInsets.only(left:22.0,right:21),
+        padding: const EdgeInsets.only(left: 22.0, right: 21),
         child: SingleChildScrollView(
           child: Column(
             children: [
-             // Gap(5.h),
+              // Gap(5.h),
               Row(
 
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom:20.0),
-                    child: Image.asset('assets/app_logo.png',width:87.w, height:77.h),
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: Image.asset(
+                        'assets/app_logo.png', width: 87.w, height: 77.h),
                   ),
-                  Text('Consultants profile',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 20.sp,fontWeight: FontWeight.w500),),
+                  Text('Consultants profile', style: GoogleFonts.poppins(
+                      color: AppTheme.lightBlack,
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w500),),
                 ],
               ),
               Gap(16.h),
@@ -52,14 +57,14 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
-                    height:274.h,
-                    width:180.w,
+                    height: 274.h,
+                    width: 180.w,
 
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          Text('Consultant\'s Bio',  style: GoogleFonts.poppins(
+                          Text('Consultant\'s Bio', style: GoogleFonts.poppins(
                               fontSize: 12.sp,
                               color: AppTheme.black,
                               fontWeight: FontWeight.w500)),
@@ -145,42 +150,54 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                           ),
 
 
-
-
                         ],
                       ),
                     ),
-                    decoration:BoxDecoration(borderRadius: BorderRadius.circular(10),
-                    color:AppTheme.lightGreen
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppTheme.lightGreen
                     ),
                   ),
                   Gap(20),
                   Container(
-                    height:274.h,
-                    width:180.w,
+                    height: 274.h,
+                    width: 180.w,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(children: [
-                        Text('Consultant\'s ratings',style: GoogleFonts.poppins(
-                          fontSize: 12.sp,
-                          color: AppTheme.black,
-                          fontWeight: FontWeight.w500))
+                        Text('Consultant\'s ratings', style: GoogleFonts
+                            .poppins(
+                            fontSize: 12.sp,
+                            color: AppTheme.black,
+                            fontWeight: FontWeight.w500))
                       ],),
                     ),
-                    decoration:BoxDecoration(borderRadius: BorderRadius.circular(10),
-                        color:AppTheme.lightGreen
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppTheme.lightGreen
                     ),
                   ),
                 ],
               ),
               Gap(58.h),
-              ElevatedButton(onPressed: (){
-              }, child:Text('Book an appointment',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
+              ElevatedButton(onPressed: () {},
+                child: Text('Book an appointment', style: GoogleFonts.poppins(
+                    color: AppTheme.white,
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w700),),
+                style: ElevatedButton.styleFrom(primary: AppTheme.primary,
+                    minimumSize: Size(382.w, 58.h)),),
               Gap(24.h),
-              ElevatedButton(onPressed: (){
+              ElevatedButton(onPressed: () {
 
 
-              }, child:Text('Rate Dr. Henry Onah',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
+              },
+                child: Text('Rate Dr. Henry Onah', style: GoogleFonts.poppins(
+                    color: AppTheme.white,
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w700),),
+                style: ElevatedButton.styleFrom(primary: AppTheme.primary,
+                    minimumSize: Size(382.w, 58.h)),),
               Gap(20),
             ],
           ),
@@ -189,9 +206,4 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
     );
   }
 
-  AppBar PrimaryAppBar(BuildContext context) {
-    return AppBar(leading: IconButton(icon:Icon(Icons.arrow_back_ios,color: AppTheme.black,),onPressed: (){
-      Navigator.pop(context);
-    },),backgroundColor: AppTheme.white,elevation: 0.0,);
-  }
 }

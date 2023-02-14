@@ -1,6 +1,7 @@
 import 'package:consult_patient/firebase_options.dart';
 import 'package:consult_patient/src/routes/routes.dart';
 import 'package:consult_patient/src/views/profile/consultants_profile.dart';
+import 'package:consult_patient/src/views/time_slots/time_slots.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Consultant patient',
             routes:routes,
-            initialRoute: ConsultantProfile.id,
+            initialRoute:SelectTimeSlot.id
+            ,
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
