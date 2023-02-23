@@ -27,6 +27,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+
   flutter:
     sdk: flutter
 
@@ -36,12 +37,17 @@ dependencies:
   cupertino_icons: ^1.0.2
   gap:
   cloud_firestore:
-  firebase_auth:
+  flutter_native_splash:
+
+
+  firebase_auth: ^4.2.7
   firebase_core:
   google_fonts:
+  modal_bottom_sheet:
   flutter_screenutil:
   flutter_riverpod:
   flutter_launcher_icons:
+  table_calendar:
 
 
 
