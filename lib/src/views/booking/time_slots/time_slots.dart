@@ -1,4 +1,5 @@
 import 'package:consult_patient/src/utils/widgets/app_bar.dart';
+import 'package:consult_patient/src/views/booking/booking_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +24,7 @@ class _SelectTimeSlotState extends ConsumerState<SelectTimeSlot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.white,
+      backgroundColor: AppTheme.backgroundColor,
       appBar: PrimaryAppBar(context),
 
       body: Column(
@@ -36,14 +37,22 @@ class _SelectTimeSlotState extends ConsumerState<SelectTimeSlot> {
                 child: Image.asset(
                     'assets/app_logo.png', width: 87.w, height: 77.h),
               ),
-              Text('Pick a slot', style: GoogleFonts.poppins(
-                  color: AppTheme.lightBlack,
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w500),),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top:8.0),
+                child: Text('Pick a slot', style: GoogleFonts.poppins(
+                    color: AppTheme.lightBlack,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w500),),
+              ),
             ],
           ),
           Gap(130.h),
-          TimeSlots(),
+          GestureDetector(
+              onTap: (){
+                Navigator.pushNamed(context, ConfirmationScreen.id);
+              },
+              child: TimeSlots()),
           Gap(24.h),
           TimeSlots(),
           Gap(24.h),
@@ -70,7 +79,10 @@ class TimeSlots extends StatelessWidget {
       child: Row(
         children: [
           Gap(63.w),
-          Text('8:00 - 9:30 Am'),
+          Text('8:00 - 9:30 Am',style: GoogleFonts.poppins(
+          color: AppTheme.primary3,
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w500),),
           Spacer(),
           Container(
             height: 49.h,

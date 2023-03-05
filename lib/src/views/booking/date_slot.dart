@@ -1,4 +1,5 @@
 import 'package:consult_patient/src/utils/widgets/app_bar.dart';
+import 'package:consult_patient/src/views/booking/time_slots/time_slots.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +25,7 @@ class _DateSlotState extends ConsumerState<DateSlot> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PrimaryAppBar(context),
-
+backgroundColor: AppTheme.backgroundColor,
       body: Column(
 
 
@@ -39,10 +40,13 @@ class _DateSlotState extends ConsumerState<DateSlot> {
                 child: Image.asset(
                     'assets/app_logo.png', width: 87.w, height: 77.h),
               ),
-              Text('Select a date', style: GoogleFonts.poppins(
-                  color: AppTheme.lightBlack,
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w500),),
+              Padding(
+                padding: const EdgeInsets.only(top:12.0),
+                child: Text('Select a date', style: GoogleFonts.poppins(
+                    color: AppTheme.lightBlack,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w500),),
+              ),
             ],
           ),
       Gap(64.h),
@@ -87,7 +91,9 @@ daysOfWeekHeight:
              //    withinRangeTextStyle : const TextStyle(),
              //   defaultDecoration :const BoxDecoration(shape: BoxShape.circle,color: AppTheme.black),
              //  // rowDecoration : const BoxDecoration(color: AppTheme.lightGreen),
-               tableBorder : const TableBorder(),
+               tableBorder : const TableBorder(
+                 // horizontalInside: BorderSide(color: AppTheme.black,strokeAlign: StrokeAlign.outside)
+               ),
              tablePadding: EdgeInsets.only(bottom:10,right: 10,left:
              10)
              //  rowDecoration:BoxDecoration(color: AppTheme.lightGreen),
@@ -105,74 +111,105 @@ daysOfWeekHeight:
            // },
             calendarBuilders: CalendarBuilders(
                 todayBuilder:  (BuildContext context, DateTime date, _) {
-                  return Container(
+                  return Padding(
+                    padding: const EdgeInsets.only(top:8.0),
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.pushNamed(context, SelectTimeSlot.id);},
+                      child: Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(left:5,right:5),
+
+                          child: Text(date.day
+                              .toString(),
+                            style: GoogleFonts.inter(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                                color:
+                                //  AppTheme.red
+                                AppTheme.lightBlack),),   decoration: BoxDecoration(
+                          color: AppTheme.white
+                          ,border:
+                      Border.symmetric(
+                          vertical: BorderSide(
+                              color: AppTheme.black
+                          ),
+                        horizontal: BorderSide(
+                            color: AppTheme.black
+                        ),
+
+                      ),
+
+
+                      )),
+                    ),
+                  );
+                },
+                defaultBuilder:
+                (BuildContext context, DateTime date, _) {
+              return GestureDetector(
+                onTap: (){
+                  Navigator.pushNamed(context, SelectTimeSlot.id);},
+                child : Padding(
+                  padding: const EdgeInsets.only(top:8.0),
+                  child: Container(
                       alignment: Alignment.center,
                       margin: EdgeInsets.only(left:5,right:5),
 
                       child: Text(date.day
-                          .toString(),
-                        style: TextStyle(
-                            fontSize: 14,
-                            color:
-                            //  AppTheme.red
-                            AppTheme.black),),   decoration: BoxDecoration(
-                      color: AppTheme.white
-                      ,border:
-                  Border.symmetric(
-                      vertical: BorderSide(
-                          color: AppTheme.black
-                      ),
-
-                  ),
-
-
-                  ));
-                },
-                defaultBuilder:
-                (BuildContext context, DateTime date, _) {
-              return Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(left:5,right:5),
-
-                  child: Text(date.day
-                  .toString(),
-                      style: TextStyle(
-                      fontSize: 14,
+                      .toString(),
+                      style: GoogleFonts.inter(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
                       color:
                       //  AppTheme.red
-                      AppTheme.black),),   decoration: BoxDecoration(
-                  color: AppTheme.white,border:
-              Border.symmetric(
-                vertical: BorderSide(
-                  color: AppTheme.black
-                )
-                  ),
-                  // borderRadius:
-                  // BorderRadius.all(Radius.circular(1)
-                  // )
-
-
-              ));
-            }, outsideBuilder: (context, date, _) {
-              return Container(
-                //  height: 30,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(left:5,right:5),
-                  decoration: BoxDecoration(
+                      AppTheme.lightBlack)),   decoration: BoxDecoration(
                       color: AppTheme.white,border:
-              Border.symmetric(
-              vertical: BorderSide(
-              color: AppTheme.black
-              )
-              ),),
-                  child: Text(
-                    '${date.day}',
-                    style: TextStyle(
-                        fontSize: 14,
-                        color:
-                        //  AppTheme.red
-                        AppTheme.lightBlack),
-                  ));
+                  Border.symmetric(
+                    vertical: BorderSide(
+                      color: AppTheme.black
+                    ),horizontal: BorderSide(
+                      color: AppTheme.black
+                  ),
+                      ),
+                      // borderRadius:
+                      // BorderRadius.all(Radius.circular(1)
+                      // )
+
+
+                  )),
+                ),
+              );
+            }, outsideBuilder: (context, date, _) {
+              return GestureDetector(
+                onTap: (){
+                  Navigator.pushNamed(context, SelectTimeSlot.id);},
+                child: Padding(
+                  padding: const EdgeInsets.only(top:8.0),
+                  child: Container(
+                    //  height: 30,
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(left:5,right:5),
+                      decoration: BoxDecoration(
+                          color: AppTheme.white,border:
+                  Border.symmetric(
+                  vertical: BorderSide(
+                  color: AppTheme.black
+                  ),horizontal: BorderSide(
+                      color: AppTheme.black
+                  ),
+                  ),),
+                      child: Text(
+                        '${date.day}',
+                        style: GoogleFonts.inter(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w400,
+                          color:
+                          //  AppTheme.red
+                          AppTheme.lightBlack.withOpacity(0.6)
+                      ))),
+                ),
+              );
             }),
 
 

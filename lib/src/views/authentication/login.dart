@@ -1,3 +1,5 @@
+import 'package:consult_patient/src/views/authentication/sign_up.dart';
+import 'package:consult_patient/src/views/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,16 +33,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 Gap(24.h),
                 Row(
-
+mainAxisSize: MainAxisSize.min,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(bottom:20.0),
                       child: Image.asset('assets/app_logo.png',width:87.w, height:77.h),
                     ),
-                    Text('Patient Sign in',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 24.sp,fontWeight: FontWeight.w600),),
+                    Padding(
+                      padding: const EdgeInsets.only(top:12.0),
+                      child: Text('Patient Sign in',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 24.sp,fontWeight: FontWeight.w600),),
+                    ),
                   ],
                 ),Gap(104.h),
-                Text('Email',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
+                Text('Username',style: GoogleFonts.poppins(color: AppTheme.lightBlack
+                    ,fontSize: 16.sp,fontWeight: FontWeight.w400),),
                 Gap(8.h),
                 SizedBox(
                   height:
@@ -58,7 +64,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 ),
                 Gap(24.h),
-                Text('Password',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
+                Text('Password',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 16.sp,fontWeight: FontWeight.w400),),
                 Gap(8.h),
                 SizedBox(
                   height:
@@ -79,15 +85,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Gap(104.h),
                 ElevatedButton(onPressed: (){
 
-
-                }, child:Text('Login',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
+Navigator.pushNamed(context, Homepage.id);
+                }, child:Text('Sign in',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary2,minimumSize: Size(382.w,58.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), ),
             Gap(24.h),
                 GestureDetector(
               onTap: () {
-                // Navigator.pushReplacement(context,
-                //     MaterialPageRoute(builder: (context) {
-                //   return const SignUp();
-                // }));
+               Navigator.pushNamed(context, SignUpScreen.id);
               },
               child: Center(
                 child: RichText(
@@ -95,15 +98,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     children: <TextSpan>[
                       TextSpan(
                           text: 'Dont have an account?',
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.dmSans(
+
                               fontSize: 16.sp,
-                              color: AppTheme.black,
+                              color: AppTheme.black3,
                               fontWeight: FontWeight.w400)),
                       TextSpan(
                           text: ' Sign up',
                           style: GoogleFonts.poppins(
                               fontSize: 16.sp,
-                              color: AppTheme.primary,
+                              color: AppTheme.primary2,
                               fontWeight: FontWeight.w400)),
                     ],
                   ),

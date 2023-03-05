@@ -1,3 +1,4 @@
+import 'package:consult_patient/src/views/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,72 +29,81 @@ class _SignUpState extends ConsumerState<SignUpScreen> {
   PageController pageController= PageController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding:  EdgeInsets.only(left:24.w,right:24.w),
-        child: Column(
-          children: [
-            Gap(35.h),
-            Row(
+    return SafeArea(
+      child: Scaffold(
+        body: Padding(
+          padding:  EdgeInsets.only(left:24.w,right:24.w),
+          child: Column(
+            children: [
+              Gap(35.h),
+              Row(
 
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom:20.0),
-                  child: Image.asset('assets/app_logo.png',width:87.w, height:77.h),
-                ),
-                Text('Sign up as a patient',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 24.sp,fontWeight: FontWeight.w600),),
-              ],
-            ),
-            Gap(104.h),
-            // SizedBox(
-            //  // height:500,
-            //   width:200,
-            //   child: ListView.builder(
-            //       shrinkWrap: true,
-            //       scrollDirection: Axis.horizontal,
-            //       itemCount: formList.length,
-            //       itemBuilder: (context,index) {
-            //       return formList[currentIndex];
-            //     }
-            //   ),
-            // ),
-            // Gap(47.h),
-            SizedBox(
-              height: 400,
-              child: PageView.builder(
-                controller: pageController,
-                  itemCount: formList.length,
-                  onPageChanged:(int){
-                  setState(() {
-                    currentIndex=int;
-                  });
-                  },
-                  itemBuilder: (context,index){
-
-                return formList[index];
-              }),
-            ),
-            SizedBox(
-              height:20,
-              child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: formList.length,
-                itemBuilder: (context,index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: CircleAvatar(backgroundColor:currentIndex==index? AppTheme.primary:AppTheme.black,radius: 3),
-                  );
-                }
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom:20.0.h),
+                    child: Image.asset('assets/app_logo.png',width:87.w, height:77.h),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top:12.0),
+                    child: Text('Sign up as a patient',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 24.sp,fontWeight: FontWeight.w600),),
+                  ),
+                ],
               ),
-            ),
-            Gap(44.h),
-            ElevatedButton(onPressed: (){
-              pageController
-              .nextPage(duration: Duration(milliseconds: 500), curve: Curves.linear);
-            }, child:Text('Next',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), ),
+              Gap(104.h),
+              // SizedBox(
+              //  // height:500,
+              //   width:200,
+              //   child: ListView.builder(
+              //       shrinkWrap: true,
+              //       scrollDirection: Axis.horizontal,
+              //       itemCount: formList.length,
+              //       itemBuilder: (context,index) {
+              //       return formList[currentIndex];
+              //     }
+              //   ),
+              // ),
+              // Gap(47.h),
+              SizedBox(
+                height: 456.h,
+                child: PageView.builder(
+                  controller: pageController,
+                    itemCount: formList.length,
+                    onPageChanged:(int){
+                    setState(() {
+                      currentIndex=int;
+                    });
+                    },
+                    itemBuilder: (context,index){
 
-          ],
+                  return formList[index];
+                }),
+              ),
+              SizedBox(
+                height:20.h,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: formList.length,
+                  itemBuilder: (context,index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: CircleAvatar(backgroundColor:currentIndex==index? AppTheme.primary:AppTheme.white2,radius: 3),
+                    );
+                  }
+                ),
+              ),
+              Gap(44.h),
+              ElevatedButton(onPressed: (){
+                pageController
+                .nextPage(duration: Duration(milliseconds: 500), curve: Curves.linear);
+                if(currentIndex ==2){
+
+                  Navigator.pushNamed(context, Homepage.id);
+                }
+              }, child:Text(currentIndex !=2?'Next':'Sign up',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary2,minimumSize: Size(382.w,58.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), ),
+
+            ],
+          ),
         ),
       ),
     );
@@ -110,7 +120,7 @@ class Field1 extends StatelessWidget {
       crossAxisAlignment:
       CrossAxisAlignment.start,
       children: [
-        Text('Surname',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
+        Text('Surname',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
         SizedBox(
           height:
@@ -128,7 +138,7 @@ class Field1 extends StatelessWidget {
           ),
         ),
         Gap(24.h),
-        Text('First Name',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
+        Text('First Name',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
         SizedBox(
           height:
@@ -146,7 +156,7 @@ class Field1 extends StatelessWidget {
           ),
         ),
         Gap(24.h),
-        Text('Last Name',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
+        Text('Last Name',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
         SizedBox(
           height:
@@ -165,7 +175,7 @@ class Field1 extends StatelessWidget {
         ),
 
         Gap(24.h),
-        Text('Email address',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
+        Text('Email address',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
         SizedBox(
           height:

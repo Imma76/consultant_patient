@@ -8,8 +8,14 @@ class AppTheme{
   static const Color black =Colors.black;
   static const Color white =Colors.white;
   static const Color primary = Color(0xff46B552);
+
+  static const Color primary2 = Color(0xff3EB14A);
+  static const Color primary3 = Color(0xff48B553);
   static const Color white2=Color(0xffD9D9D9);
   static const Color black2 = Color(0xff686464);
+  static const Color black3 = Color(0xff3C3A3A);
+  static const Color backgroundColor = Color(0xffF5F5F5);
+  static const Color yellow = Color(0xffFFED47);
 
 
 

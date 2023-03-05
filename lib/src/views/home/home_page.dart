@@ -1,3 +1,4 @@
+import 'package:consult_patient/src/views/profile/consultants_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,40 +28,39 @@ class _HomepageState extends ConsumerState<Homepage> {
         AppTheme.lightGreen,
         body: Padding(
           padding: const EdgeInsets.only(left:24.0,right:24),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Gap(30.h),
-                Row(
-                  children: [
-                    Image.asset('assets/app_logo.png',width: 87.w,height:77.h),
-                    Spacer(),
-                    Icon(Icons.notification_add
-                    ,size: 16,color: AppTheme.primary,),
-                    Column(
-                      children: [
-                        Column(
-                          children: [
-                            Text('Pending consultation \n with Dr. henry onah',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
-                          Row(
-                            children: [
-                              Icon(Icons.access_time,size: 16,color: AppTheme.primary,),
-                              Text('1:35:27'),
-                            ],
-                          ),
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Gap(16.h),
-                Row(
-                  children: [
-                    Avatar(),
-                    Spacer(),
-                    Column(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gap(35.h),
+              Row(
+                children: [
+                  Image.asset('assets/app_logo.png',width: 87.w,height:77.h),
+                  Spacer(),
+              //  Image.asset('assets/notification_bell.png',height:16.h, width:16.w),Gap(5.w), Text('Pending consultation \n with Dr. henry onah',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
+
+
+                  // )
+                ],
+              ),
+
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.end,
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     Icon(Icons.access_time,size: 14.sp,color: AppTheme.primary,),Gap(5.w),
+              //     Text('1:35:27',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w600)),Gap(65.5.w),
+              //   ],
+              // ),
+
+              Gap(16.h),
+              Row(
+                children: [
+                  Avatar(),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(top:2.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Row(
 
@@ -69,96 +69,130 @@ class _HomepageState extends ConsumerState<Homepage> {
 
                           ],
                         ),
-                        Text('Date')
+                        Gap(4.h),
+                        Text('Date',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w600))
                       ],
-                    )
-                    ],
-                ),
-                Gap(16.h),
-                Row(
-                  children: [
-                    Text('Consultants Online',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 20.sp,fontWeight: FontWeight.w500)),
-                    Gap(10),
-                    CircleAvatar(radius: 3,backgroundColor: AppTheme.primary,),
+                    ),
+                  )
                   ],
+              ),
+              Gap(16.h),
+              Row(
+                children: [
+                  Text('Consultants Online',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 20.sp,fontWeight: FontWeight.w500)),
+                  Gap(3.w),
+                  CircleAvatar(radius: 3,backgroundColor: AppTheme.primary,),
+                ],
+              ),
+              Gap(16.h),
+              SizedBox(
+                height: 100.h,
+                child: ListView.builder(
+                  itemCount: 10,
+                  shrinkWrap:true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context,index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left:8.0,right: 8),
+                      child: GestureDetector(
+                          onTap: (){
+
+                            Navigator.pushNamed(context,ConsultantProfile.id);
+                          },
+                          child: ConsultantAvatar()),
+                    );
+                  }
                 ),
-                Gap(16.h),
-                SizedBox(
-                  height: 100,
-                  child: ListView.builder(
-                    itemCount: 10,
-                    shrinkWrap:true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context,index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left:8.0,right: 8),
-                        child: ConsultantAvatar(),
-                      );
-                    }
-                  ),
-                ),
-                Container(
-                  height: 43.h,
-                  width:382.w,
-                  child:Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: TextField(
+              ),
+              Container(
+                height: 43.h,
+                width:382.w,
 
-                      cursorColor: AppTheme.black2,
-                      decoration: InputDecoration
-                        (hintText: 'Search for a consultant by name or specialty',
-                          hintStyle:
-                          GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w400) ,
-                          prefixIcon: Icon(Icons.search,color:
-                        AppTheme.black2,
-                      ),
-                      enabledBorder:
-                          InputBorder.none,
-                        focusedBorder: InputBorder.none
+                padding: EdgeInsets.only(left:24),
+                child:Row(
+                  children: [
+                  Icon(Icons.search,color:
+                AppTheme.black2,size:
+
+                24.sp,
+                ),Gap(8.w),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom:4.0),
+                        child: TextField(
+
+                          cursorColor: AppTheme.black2,
+                          decoration: InputDecoration
+                            (hintText: 'Search for a consultant by name or specialty',
+                              hintStyle:
+                              GoogleFonts.poppins(color: AppTheme.black2.withOpacity(0.8),fontSize: 12.sp,fontWeight: FontWeight.w400) ,
+
+                          //     prefixIcon: Icon(Icons.search,color:
+                          //   AppTheme.black2,size:
+                          //
+                          //       24.sp,
+                          // ),
+                          enabledBorder:
+                              InputBorder.none,
+                            focusedBorder: InputBorder.none
 
 
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  decoration: BoxDecoration(color: AppTheme.white,borderRadius:
-                      BorderRadius.circular(20)
-                  ),
+                  ],
                 ),
-                Gap(16.h),
+                decoration: BoxDecoration(color: AppTheme.white,borderRadius:
+                    BorderRadius.circular(20)
+                ),
+              ),
+              Gap(16.h),
 
-                Center(
-                  child: Container(width: 295.w,height:259.h,
-                    child: Center(child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('15 tips to make your doctor\'s consultation better',style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w500) ,),
+
+              // Center(
+              //   child: Container(width: 295.w,height:259.h,
+              //     child: Center(child: Padding(
+              //       padding: const EdgeInsets.all(8.0),
+              //       child: Text('15 tips to make your doctor\'s consultation better',textAlign:TextAlign.center,style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w500) ,),
+              //     )),
+              //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),gradient: LinearGradient(
+              //     begin: Alignment.topLeft,
+              //     end: Alignment.bottomRight,
+              //     colors:[
+              //     Color.fromRGBO(
+              //       224, 239, 48, 0.74),
+              //     Color.fromRGBO(72, 181, 83, 0.3922)
+              //   ],)),),
+              // ),
+             // Gap(24.h),
+              Expanded(
+                child: ListView.builder(
+
+                  shrinkWrap: true,
+                  itemCount:
+                    2,
+                    itemBuilder: (context, index) =>  Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom:8.0),
+                        child: Container(width: 295.w,height:259.h,
+                          child: Center(child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(index==1?'Tips for Effective Online Health':'15 tips to make your doctor\'s consultation better',textAlign:TextAlign.center,style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w500) ,),
+                          )),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors:[
+                              Color.fromRGBO(
+                                  224, 239, 48, 0.74),
+                              Color.fromRGBO(72, 181, 83, 0.3922)
+                            ],)),),
+                      ),
                     )),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors:[
-                    Color.fromRGBO(
-                      224, 239, 48, 0.74),
-                    Color.fromRGBO(72, 181, 83, 0.3922)
-                  ],)),),
-                ),
-                Gap(24.h),
-                Center(
-                  child: Container(width: 295.w,height:259.h,
-                    child: Center(child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Tips for Effective Online Health',style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w500) ,),
-                    )),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors:[
-                        Color.fromRGBO(
-                            224, 239, 48, 0.74),
-                        Color.fromRGBO(72, 181, 83, 0.3922)
-                      ],)),),
-                )
-              ],
-            ),
+              )
+
+            ],
           ),
         ),
       ),
@@ -180,6 +214,7 @@ class Avatar extends StatelessWidget {
             AppTheme.primary,),
           backgroundColor: AppTheme.white,
         ),
+        Gap(4.h),
 
         Text('Margaret Elom',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w600))
       ],
@@ -203,9 +238,9 @@ class ConsultantAvatar extends StatelessWidget {
         Gap(8.h),
         Row(
           children: [
-            Text('Dr Margaret Elom',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
+            Text('Dr. Margaret Elom',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.bold)),
             Gap(5),
-            CircleAvatar(radius: 3,backgroundColor: AppTheme.primary,),
+            CircleAvatar(radius: 2,backgroundColor: AppTheme.primary,),
 
           ],
         )

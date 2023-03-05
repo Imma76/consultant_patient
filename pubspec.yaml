@@ -43,7 +43,8 @@ dependencies:
   firebase_auth: ^4.2.7
   firebase_core:
   google_fonts:
-  modal_bottom_sheet:
+  flutter_rating_bar:
+  device_preview:
   flutter_screenutil:
   flutter_riverpod:
   flutter_launcher_icons:

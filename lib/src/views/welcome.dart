@@ -1,4 +1,5 @@
 import 'package:consult_patient/src/themes/app_theme.dart';
+import 'package:consult_patient/src/views/authentication/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -21,24 +22,39 @@ class WelcomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Gap(24.h),
-              Text('Use',style: GoogleFonts.poppins(fontSize: 36.sp,fontWeight:
-              FontWeight
-              .w600,color: AppTheme.lightBlack,
-              ),),
-              Gap(4),
+
+              Gap(4.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                Text('Consult today',style: GoogleFonts.poppins(fontSize: 24.sp,fontWeight:
-                FontWeight
-                    .w600,color: AppTheme.lightBlack,
-                ),),
+                  RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: 'Use\n',
+                            style: GoogleFonts.dmSans(
+
+                                fontSize: 32.sp,
+                                color: AppTheme.lightBlack,
+                                fontWeight: FontWeight.bold)),
+                        TextSpan(
+                            text: 'Consult today',
+                            style: GoogleFonts.poppins(
+                                fontSize: 24.sp,
+                                color: AppTheme.lightBlack,
+                                fontWeight: FontWeight.w400)),
+                      ],
+                    ),
+                  ),
+
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
+                  padding: const EdgeInsets.only(bottom:5.0),
                   child: Image.asset('assets/app_logo.png',width: 87.w, height: 77.h,),
                 )
               ],),
-              Gap(20),
+
+              Gap(MediaQuery
+              .of(context).size.height/12),
               Stack(
 
                // alignment:Alignment.bottomCenter,
@@ -55,14 +71,14 @@ class WelcomeScreen extends StatelessWidget {
                       (
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text('Get professional consultation from the best consultants around you.',style: GoogleFonts.poppins(color: AppTheme.primary,fontSize: 20.sp,fontWeight: FontWeight.w600),)
+                        Text('Get professional consultation from the best consultants around you.',textAlign:TextAlign.left,style: GoogleFonts.poppins(color: AppTheme.primary,fontSize: 20.sp,fontWeight: FontWeight.w600),)
                       ],
                     ),
                     decoration:
                     BoxDecoration
                       (borderRadius: BorderRadius.circular(20),color: AppTheme.white),),
                   Positioned(
-                    left: 104.w,
+                    left: 90.w,
                     bottom: 300.h,
                     child: CircleAvatar(
                       radius: 80,
@@ -74,9 +90,9 @@ class WelcomeScreen extends StatelessWidget {
               ),
               Gap(64.h),
               ElevatedButton(onPressed: (){
+                Navigator.pushNamed(context, LoginScreen.id);
 
-
-              }, child:Text('Get Started',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h)), )
+              }, child:Text('Get Started',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), )
               
             ],
           ),
