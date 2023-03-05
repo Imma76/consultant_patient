@@ -15,18 +15,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(
-      DevicePreview(
-      enabled: !kReleaseMode,
+      //DevicePreview(
+      //enabled: !kReleaseMode,
 
-     builder :(context)=>
+     //builder :(context)=>
      const MyApp()
-     )
+     //)
           );
 }
 
