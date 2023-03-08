@@ -121,6 +121,7 @@ class AuthController extends ChangeNotifier{
       centralState.stopLoading();
       return;
     }
+    await userController.init();
     centralState.stopLoading();
     notifyListeners();
     Navigator.pushNamedAndRemoveUntil(navigatorKey!
