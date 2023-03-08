@@ -2,7 +2,10 @@ import 'package:consult_patient/src/models/patient_model.dart';
 import 'package:consult_patient/src/services/auth_service.dart';
 import 'package:consult_patient/src/services/patient_service.dart';
 import 'package:consult_patient/src/utils/widgets/reusable_widget.dart';
+import 'package:consult_patient/src/views/home/home_page.dart';
 import 'package:flutter/material.dart';
+
+import '../../main.dart';
 
 class AuthController extends ChangeNotifier{
   bool load = false;
@@ -37,38 +40,41 @@ class AuthController extends ChangeNotifier{
 
   }
 
-  void checkInput(){
+  bool checkInput(){
     if(surNameController.text.isEmpty){
       showToast('fill in surname');
-      return;
+      return false;;
     }
     if(firstNameController.text.isEmpty){
       showToast('fill in first name');
-      return;
+      return false;;
     }
     if(lastNameController.text.isEmpty){
       showToast('fill in last name');
-      return;
+      return false;;
     }
     if(emailController
         .text.isEmpty){
       showToast('fill in your email address');
-      return;
+      return false;;
 
     }
     if(genderController.text.isEmpty){
       showToast('fill in your gender');
-      return;
+      return false;;
     }
     if(ageController.text.isEmpty){
       showToast('fill in your age');
-      return;
+      return false;
 
     }
+    return true;
 
   }
   Future signUp()async{
-    final user= authService.signUp(email: emailController.text.trim(),password: passwordController.text);
+    load = true;
+    notifyListeners();
+    final user= await  authService.signUp(email: emailController.text.trim(),password: passwordController.text);
     Patient patient =Patient(
         email: emailController.text.trim(),
         userName: userNameController.text.trim(),
@@ -84,13 +90,20 @@ class AuthController extends ChangeNotifier{
       gender: genderController.text.trim()
     );
     if(user == null){
-
+      load = false;
+      notifyListeners();
     }
    final createUser = await PatientService.createPatient(patient);
     if(createUser  == null){
-
+      load = false;
+      notifyListeners();
       return;
     }
+    load = false;
+    notifyListeners();
+
+    Navigator.pushNamedAndRemoveUntil(navigatorKey!
+        .currentContext!, Homepage.id, (route) => false);
 
 
   }

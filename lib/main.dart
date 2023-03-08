@@ -59,8 +59,8 @@ class MyApp extends StatelessWidget {
               routes:routes,
              debugShowCheckedModeBanner: false,
               navigatorObservers: [BotToastNavigatorObserver()],
-
-             builder: DevicePreview.appBuilder,
+              builder: BotToastInit(),
+             //builder: DevicePreview.appBuilder,
              home: LoadApp(),
               theme: ThemeData(
                 primarySwatch: Colors.blue,
@@ -117,15 +117,13 @@ class LoadApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-
-
-    //return Consumer(
-      //builder: (context, widget,ref){
-        //if(centralState.isUserPresent){
-         // return Homepage();
-       // }
+    return Consumer(
+      builder: (context, widget,ref){
+        if(centralState.isUserPresent){
+         return Homepage();
+       }
         return WelcomeScreen();
-     // },
-   // );
+      },
+    );
   }
 }

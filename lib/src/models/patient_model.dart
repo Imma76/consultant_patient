@@ -37,5 +37,6 @@ class Patient{
     data['height']=height;
     data['gender']=gender;
     data['allergies']=allergies;
+    return data;
   }
 }

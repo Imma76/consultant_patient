@@ -2,6 +2,7 @@
 
 
 
+import 'package:consult_patient/src/controllers/auth_controller.dart';
 import 'package:consult_patient/src/controllers/central_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -64,3 +65,5 @@ final centralProvider = StreamProvider((ref) {
 
 // final centralProvider = ChangeNotifierProvider<CentralState
 // >((ref) =>CentralState());
+
+final authProvider = ChangeNotifierProvider<AuthController>((ref) => AuthController());
