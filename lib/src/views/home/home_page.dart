@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../main.dart';
 import '../../controllers/central_state.dart';
+import '../../controllers/user_controller.dart';
 import '../../themes/app_theme.dart';
 import '../../utils/widgets/loader.dart';
 
@@ -27,15 +28,22 @@ class Homepage extends ConsumerStatefulWidget {
 class _HomepageState extends ConsumerState<Homepage> {
 
 
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final centralController = ref.read(centralProvider);
+  }
   @override
   Widget build(BuildContext context) {
     final authController = ref.watch(authProvider);
+    final userController = ref.watch(userProvider);
+    final centralController = ref.watch(centralProvider);
     return SafeArea(
       child: Scaffold(
         backgroundColor:
         AppTheme.lightGreen,
-        body: Padding(
+        body:centralController.isAppLoading?Indicator(): Padding(
           padding: const EdgeInsets.only(left:24.0,right:24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,8 +51,7 @@ class _HomepageState extends ConsumerState<Homepage> {
               Gap(35.h),
               Row(
                 children: [
-                 centralState.isAppLoading
-                     ?Indicator(): Image.asset('assets/app_logo.png',width: 87.w,height:77.h),
+                 Image.asset('assets/app_logo.png',width: 87.w,height:77.h),
                   Spacer(),
               //  Image.asset('assets/notification_bell.png',height:16.h, width:16.w),Gap(5.w), Text('Pending consultation \n with Dr. henry onah',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
 
@@ -74,7 +81,7 @@ class _HomepageState extends ConsumerState<Homepage> {
                         Row(
 
                           children: [
-                            TimeWidget(time: '06',),Gap(8.w), TimeWidget(time: '1',),Gap(8.w), TimeWidget(time: '23',)
+                            TimeWidget(time: DateTime.now().day.toString(),),Gap(8.w), TimeWidget(time: DateTime.now().month.toString(),),Gap(8.w), TimeWidget(time: '${DateTime.now().year}'.split('0')[1],)
 
                           ],
                         ),
@@ -212,13 +219,16 @@ class _HomepageState extends ConsumerState<Homepage> {
   }
 }
 
-class Avatar extends StatelessWidget {
+class Avatar extends ConsumerWidget {
   const Avatar({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,ref) {
+    final authController = ref.watch(authProvider);
+
+    //final userController = ref.watch(userProvider);
     return Column(
       children: [
         CircleAvatar(
@@ -228,7 +238,7 @@ class Avatar extends StatelessWidget {
         ),
         Gap(4.h),
 
-        Text('Margaret Elom',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w600))
+        Text('${userController.patient!.firstName}',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w600))
       ],
     );
   }
@@ -241,6 +251,7 @@ class ConsultantAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         CircleAvatar(

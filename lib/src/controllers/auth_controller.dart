@@ -1,3 +1,4 @@
+import 'package:consult_patient/src/controllers/user_controller.dart';
 import 'package:consult_patient/src/models/patient_model.dart';
 import 'package:consult_patient/src/services/auth_service.dart';
 import 'package:consult_patient/src/services/patient_service.dart';
@@ -31,14 +32,13 @@ class AuthController extends ChangeNotifier{
   Future signIn(centralState)async{
    centralState.startLoading();
    print('hhhs${ centralState.isAppLoading}');
+
     final user=await authService.signIn(email: emailController.text.trim(),password: passwordController.text);
     if(user==null){
       centralState.stopLoading();
       return;
     }
-    patient = await PatientService.findPatientById(user.uid);
-    notifyListeners();
-
+   await userController.init();
    // if(login ){
    //   load=false;
    //   notifyListeners();

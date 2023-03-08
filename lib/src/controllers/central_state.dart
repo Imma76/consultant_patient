@@ -1,3 +1,4 @@
+import 'package:consult_patient/src/controllers/user_controller.dart';
 import 'package:consult_patient/src/views/authentication/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
@@ -59,17 +60,10 @@ class CentralState extends ChangeNotifier{
         isUserPresent = (user != null);
         print(isUserPresent);
         notifyListeners();
+        await userController.init();
 
-        if (isUserPresent) {
-          isPhoneVerified =
-          !(user!.phoneNumber == null || user!.phoneNumber == '');
-          // add logs
-          // Status _response = await AdminApi()
-          //     .checkIfAdminIsLinkedToSalonPhone(user!.uid, user!.phoneNumber);
-
-          //.  isAdminLinkedToSalon = (_response == Status.success);
-        }
         isAppLoading = false;
+        notifyListeners();
 
       } else{
         debugPrint('user is null prod');
@@ -99,4 +93,4 @@ class CentralState extends ChangeNotifier{
   }
 }
 
-final CentralState centralState =new CentralState();
+ CentralState centralState =new CentralState();

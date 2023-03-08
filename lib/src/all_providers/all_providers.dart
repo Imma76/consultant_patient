@@ -4,6 +4,7 @@
 
 import 'package:consult_patient/src/controllers/auth_controller.dart';
 import 'package:consult_patient/src/controllers/central_state.dart';
+import 'package:consult_patient/src/controllers/user_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -64,5 +65,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // });
 
 final centralProvider = ChangeNotifierProvider<CentralState>((ref) =>CentralState());
-
+final userProvider = ChangeNotifierProvider<UserController
+>((ref) => UserController());
 final authProvider = ChangeNotifierProvider<AuthController>((ref) => AuthController());

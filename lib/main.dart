@@ -91,6 +91,7 @@ class _LoadAppState extends ConsumerState<LoadApp> {
     // TODO: implement initState
     super.initState();
     ref.read(centralProvider).initializeApp();
+
   }
   @override
   Widget build(BuildContext context) {
