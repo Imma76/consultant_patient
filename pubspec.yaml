@@ -40,8 +40,9 @@ dependencies:
   flutter_native_splash:
 
 
-  firebase_auth: ^4.2.7
+  firebase_auth:
   firebase_core:
+  bot_toast:
   google_fonts:
   flutter_rating_bar:
   device_preview:

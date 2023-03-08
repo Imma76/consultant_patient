@@ -11,8 +11,9 @@ class Patient{
   String? allergies;
   DateTime? createdAt;
   String? medicalConditions;
+  Patient({this.email,this.userName,this.lastName,this.firstName,this.medicalConditions,this.allergies,this.height,this.createdAt,this.age,this.gender,this.weight});
 
-  fromJson(Map<String,dynamic> data){
+  Patient.fromJson(Map<dynamic,dynamic> data){
     userName=data['userName'];
     email=data['email'];
     firstName=data['firstName'];

@@ -38,7 +38,6 @@ class _HomepageState extends ConsumerState<Homepage> {
                   Spacer(),
               //  Image.asset('assets/notification_bell.png',height:16.h, width:16.w),Gap(5.w), Text('Pending consultation \n with Dr. henry onah',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
 
-
                   // )
                 ],
               ),

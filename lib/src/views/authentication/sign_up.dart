@@ -27,6 +27,7 @@ class _SignUpState extends ConsumerState<SignUpScreen> {
   ];
   int currentIndex=0;
   PageController pageController= PageController();
+ // final
   @override
   Widget build(BuildContext context) {
     return SafeArea(
