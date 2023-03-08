@@ -10,8 +10,9 @@ class Patient{
   String? gender;
   String? allergies;
   DateTime? createdAt;
+  String? userId;
   String? medicalConditions;
-  Patient({this.email,this.userName,this.lastName,this.firstName,this.medicalConditions,this.allergies,this.height,this.createdAt,this.age,this.gender,this.weight});
+  Patient({this.email,this.userName,this.lastName,this.userId,this.firstName,this.medicalConditions,this.allergies,this.height,this.createdAt,this.age,this.gender,this.weight});
 
   Patient.fromJson(Map<dynamic,dynamic> data){
     userName=data['userName'];
@@ -24,6 +25,7 @@ class Patient{
     gender=data['gender'];
     allergies=data['allergies'];
     medicalConditions=data['medicalConditions'];
+    userId=data['userId'];
   }
 
   toJson(){
@@ -37,6 +39,8 @@ class Patient{
     data['height']=height;
     data['gender']=gender;
     data['allergies']=allergies;
+    data['userId']=userId;
+    data['createdAt']=createdAt;
     return data;
   }
 }

@@ -1,11 +1,16 @@
+import 'package:consult_patient/src/all_providers/all_providers.dart';
 import 'package:consult_patient/src/views/profile/consultants_profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../main.dart';
+import '../../controllers/central_state.dart';
 import '../../themes/app_theme.dart';
+import '../../utils/widgets/loader.dart';
 
 
 class Homepage extends ConsumerStatefulWidget {
@@ -20,8 +25,12 @@ class Homepage extends ConsumerStatefulWidget {
 }
 
 class _HomepageState extends ConsumerState<Homepage> {
+
+
+
   @override
   Widget build(BuildContext context) {
+    final authController = ref.watch(authProvider);
     return SafeArea(
       child: Scaffold(
         backgroundColor:
@@ -34,7 +43,8 @@ class _HomepageState extends ConsumerState<Homepage> {
               Gap(35.h),
               Row(
                 children: [
-                  Image.asset('assets/app_logo.png',width: 87.w,height:77.h),
+                 centralState.isAppLoading
+                     ?Indicator(): Image.asset('assets/app_logo.png',width: 87.w,height:77.h),
                   Spacer(),
               //  Image.asset('assets/notification_bell.png',height:16.h, width:16.w),Gap(5.w), Text('Pending consultation \n with Dr. henry onah',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
 
@@ -94,9 +104,12 @@ class _HomepageState extends ConsumerState<Homepage> {
                     return Padding(
                       padding: const EdgeInsets.only(left:8.0,right: 8),
                       child: GestureDetector(
-                          onTap: (){
-
-                            Navigator.pushNamed(context,ConsultantProfile.id);
+                          onTap: ()async{
+                            // print('logout');
+                            centralState.startLoading();
+                            await FirebaseAuth.instance.signOut();
+                            centralState.stopLoading();
+                         //   Navigator.pushNamed(context,ConsultantProfile.id);
                           },
                           child: ConsultantAvatar()),
                     );

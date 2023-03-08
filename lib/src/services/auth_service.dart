@@ -15,7 +15,7 @@ class AuthService{
     try{
 
       UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email.toString(), password: password.toString());
-      return user;
+      return user.user;
     }on SocketException{
       return false;
     }on FirebaseAuthException catch(e){
@@ -34,7 +34,7 @@ class AuthService{
     try{
 
       UserCredential user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email.toString(), password: password.toString());
-      return user;
+      return user.user;
     }on SocketException{
       return false;
     } on FirebaseAuthException catch(e){

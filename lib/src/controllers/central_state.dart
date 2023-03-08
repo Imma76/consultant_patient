@@ -14,6 +14,18 @@ class CentralState extends ChangeNotifier{
   bool isPhoneVerified=false;
   bool? isFirstTime = true;
 
+  void startLoading(){
+
+    isAppLoading=true;
+    notifyListeners();
+  }
+
+  void stopLoading(){
+
+    isAppLoading = false;
+    notifyListeners();
+  }
+
   // void userData(UserModel newUserModel){
   //   userModel= newUserModel;
   //   notifyListeners();
@@ -33,9 +45,10 @@ class CentralState extends ChangeNotifier{
   }
 
 
+
   void initializeApp()async{
     await getIsUserFirstTime();
-
+    isAppLoading = true;
     FirebaseAuth.instance.authStateChanges().listen((User? firebaseUser) async {
 
       if (firebaseUser != null) {
@@ -64,6 +77,8 @@ class CentralState extends ChangeNotifier{
         user = null;
         isAppLoading = false;
         notifyListeners();
+   //     Navigator.pushNamedAndRemoveUntil(navigatorKey!.currentContext!, LoginScreen.id, (route) => false);
+
 
       }
 
@@ -84,3 +99,4 @@ class CentralState extends ChangeNotifier{
   }
 }
 
+final CentralState centralState =new CentralState();

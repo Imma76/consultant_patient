@@ -24,23 +24,33 @@ class AuthController extends ChangeNotifier{
 
   TextEditingController userNameController= TextEditingController();
 
+
+  Patient? patient;
+
   AuthService authService = AuthService();
-  Future signIn()async{
-   load = true;
-   notifyListeners();
-    final login =await authService.signIn(email: emailController.text.trim(),password: passwordController.text);
+  Future signIn(centralState)async{
+   centralState.startLoading();
+   print('hhhs${ centralState.isAppLoading}');
+    final user=await authService.signIn(email: emailController.text.trim(),password: passwordController.text);
+    if(user==null){
+      centralState.stopLoading();
+      return;
+    }
+    patient = await PatientService.findPatientById(user.uid);
+    notifyListeners();
 
    // if(login ){
    //   load=false;
    //   notifyListeners();
    //
    // }
-   load=false;
-    notifyListeners();
+  centralState.stopLoading();
+   Navigator.pushNamedAndRemoveUntil(navigatorKey!
+       .currentContext!, Homepage.id, (route) => false);
 
   }
 
-  bool checkInput(){
+  bool checkInputForSignUp(){
     if(surNameController.text.isEmpty){
       showToast('fill in surname');
       return false;;
@@ -57,7 +67,6 @@ class AuthController extends ChangeNotifier{
         .text.isEmpty){
       showToast('fill in your email address');
       return false;;
-
     }
     if(genderController.text.isEmpty){
       showToast('fill in your gender');
@@ -66,46 +75,56 @@ class AuthController extends ChangeNotifier{
     if(ageController.text.isEmpty){
       showToast('fill in your age');
       return false;
-
+    }
+    if(passwordController.text.isEmpty){
+      showToast('fill in your password');
+      return false;
     }
     return true;
-
   }
-  Future signUp()async{
-    load = true;
-    notifyListeners();
+
+  bool checkInputForSignIn(){
+    if(emailController.text.isEmpty){
+      showToast('fill in your email');
+      return false;
+    }
+    if(passwordController.text.isEmpty){
+      showToast('fill in your password');
+      return false;
+    }
+    return true;
+  }
+  Future signUp(centralState)async{
+    centralState.stopLoading();
     final user= await  authService.signUp(email: emailController.text.trim(),password: passwordController.text);
-    Patient patient =Patient(
-        email: emailController.text.trim(),
-        userName: userNameController.text.trim(),
+
+    if(user == null){
+      centralState.stopLoading();
+      return;
+    }
+     patient =Patient(
+      email: emailController.text.trim(),
+      userName: userNameController.text.trim(),
       allergies: allergiesController.text.trim(),
       firstName: firstNameController.text.trim(),
       lastName: lastNameController.text.trim(),
       medicalConditions: medicalConditionsController.text.trim(),
-      height: heightController
-          .text.trim(),
+      height: heightController.text.trim(),
       weight: weightController.text.trim(),
       createdAt: DateTime.now(),
       age:ageController.text.trim(),
-      gender: genderController.text.trim()
+      gender: genderController.text.trim(),
+      userId:user.uid,
     );
-    if(user == null){
-      load = false;
-      notifyListeners();
-    }
-   final createUser = await PatientService.createPatient(patient);
+   final createUser = await PatientService.createPatient(patient!);
     if(createUser  == null){
-      load = false;
-      notifyListeners();
+      centralState.stopLoading();
       return;
     }
-    load = false;
+    centralState.stopLoading();
     notifyListeners();
-
     Navigator.pushNamedAndRemoveUntil(navigatorKey!
         .currentContext!, Homepage.id, (route) => false);
-
-
   }
 
 }

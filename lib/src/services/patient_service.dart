@@ -25,11 +25,27 @@ class PatientService{
     }
   }
 
+ static Future findPatientById(String userId)async{
+   try{
+     DocumentSnapshot
+     user = await Collections.patientCollection.doc(userId).get();
+     if(!user.exists){
+       return null;
+     }
+       return Patient.fromJson(user.data() as Map
+       );
+
+   }on SocketException{
+     return null;
+   } catch(e){
+     return null;
+   }
+ }
+
  static Future createPatient(Patient patient)async{
    try{
-     final user = await Collections.patientCollection.add(patient.toJson());
+     final user = await Collections.patientCollection.doc(patient.userId).set(patient.toJson());
      return true;
-
    }on SocketException {
      return null;
    } catch(e){

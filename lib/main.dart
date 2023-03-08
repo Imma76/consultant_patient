@@ -22,12 +22,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
- final CentralState centralState =CentralState();
+
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  centralState.initializeApp();
+
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(
@@ -75,55 +75,58 @@ class MyApp extends StatelessWidget {
 }
 
 
-// class LoadApp extends ConsumerStatefulWidget {
-//   const LoadApp({
-//     Key? key,
-//   }) : super(key: key);
-//
-//   @override
-//   ConsumerState createState() => _LoadAppState();
-// }
-//
-// class _LoadAppState extends ConsumerState<LoadApp> {
-//
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     ref.read(centralProvider).initializeApp();
-//   }
-//   @override
-//   Widget build(BuildContext context) {
-//         final centralState = ref.watch(centralProvider).addListener(() {
-//
-//         }); print(centralState.isUserPresent
-//         );
-//         if (centralState.isUserPresent) {
-//           return Homepage();
-//         }
-//
-//
-//
-//     return WelcomeScreen();
-//   }
-// }
-//
-class LoadApp extends ConsumerWidget {
+class LoadApp extends ConsumerStatefulWidget {
   const LoadApp({
     Key? key,
   }) : super(key: key);
 
+  @override
+  ConsumerState createState() => _LoadAppState();
+}
+
+class _LoadAppState extends ConsumerState<LoadApp> {
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ref.read(centralProvider).initializeApp();
+  }
+  @override
+  Widget build(BuildContext context) {
+    final centralController = ref.watch(centralProvider);
 
-    return Consumer(
-      builder: (context, widget,ref){
-        if(centralState.isUserPresent){
-         return Homepage();
-       }
+        if(centralController.isUserPresent){
+          return Homepage();
+        }
+        if(centralController.isAppLoading){
+
+          return Scaffold(body:Indicator());
+        }
         return WelcomeScreen();
-      },
-    );
+
   }
 }
+
+
+
+//
+// class LoadApp extends ConsumerWidget {
+//   const LoadApp({
+//     Key? key,
+//   }) : super(key: key);
+//
+//
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//
+//     return Consumer(
+//       builder: (context, widget,ref){
+//         if(centralState.isUserPresent){
+//          return Homepage();
+//        }
+//         return WelcomeScreen();
+//       },
+//     );
+//   }
+// }

@@ -1,4 +1,5 @@
 import 'package:consult_patient/src/all_providers/all_providers.dart';
+import 'package:consult_patient/src/controllers/auth_controller.dart';
 import 'package:consult_patient/src/utils/widgets/loader.dart';
 import 'package:consult_patient/src/views/home/home_page.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../main.dart';
 import '../../themes/app_theme.dart';
 
 
@@ -35,10 +37,12 @@ class _SignUpState extends ConsumerState<SignUpScreen> {
     // TODO: implement initState
     super.initState();
     final  authController = ref.read(authProvider);
+    final centralController = ref.read(centralProvider);
   }
   @override
   Widget build(BuildContext context) {
     final  authController = ref.watch(authProvider);
+    final centralController = ref.watch(centralProvider);
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -107,11 +111,11 @@ class _SignUpState extends ConsumerState<SignUpScreen> {
                 ElevatedButton(onPressed: ()async{
                   pageController
                   .nextPage(duration: Duration(milliseconds: 500), curve: Curves.linear);
-                  if(currentIndex ==2&& authController.checkInput()){
-                    await authController.signUp();
+                  if(currentIndex ==2&& authController.checkInputForSignUp()){
+                    await authController.signUp(centralController);
                     //Navigator.pushNamed(context, Homepage.id);
                   }
-                }, child:authController.load?Indicator():Text(currentIndex !=2?'Next':'Sign up',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary2,minimumSize: Size(382.w,58.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), ),
+                }, child:  centralController.isAppLoading?Indicator(color: AppTheme.white2,):Text(currentIndex !=2?'Next':'Sign up',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary2,minimumSize: Size(382.w,58.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), ),
 
               ],
             ),
@@ -135,88 +139,23 @@ class Field1 extends ConsumerWidget {
       children: [
         Text('Surname',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextFormField(
-              controller: authController.surNameController,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
-
-                  focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
-              ),
-            ),
-          ),
-        ),
+        InputField(controller: authController.surNameController),
         Gap(24.h),
         Text('First Name',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextFormField(
-              controller: authController.firstNameController,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
-
-                  focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
-              ),
-            ),
-          ),
-        ),
+        InputField(controller: authController.firstNameController),
         Gap(24.h),
         Text('Last Name',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextFormField(
-              controller: authController.lastNameController,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
-
-                  focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
-              ),
-            ),
-          ),
-        ),
-
+        InputField(controller: authController.lastNameController),
         Gap(24.h),
         Text('Email address',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextFormField(
-              controller: authController.emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
-
-                  focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
-              ),
-            ),
-          ),
-        ),
+        InputField(controller: authController.emailController),
       ],
     );
   }
 }
-
-
 
 class Field2 extends ConsumerWidget {
   const Field2({Key? key}) : super(key: key);
@@ -231,84 +170,21 @@ class Field2 extends ConsumerWidget {
       children: [
         Text('Gender',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextFormField(
-              controller: authController.genderController,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
-
-                  focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
-              ),
-            ),
-          ),
+        InputField(controller: authController.genderController
         ),
         Gap(24.h),
         Text('Age',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextFormField(
-              controller: authController.ageController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
-
-                  focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
-              ),
-            ),
-          ),
-        ),
+        InputField(controller: authController.ageController),
         Gap(24.h),
         Text('Weight (optional)',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextFormField(
-              controller:
-              authController.weightController,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
-
-                  focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
-              ),
-            ),
-          ),
-        ),
+        InputField(controller: authController.weightController),
 
         Gap(24.h),
         Text('Height (Optional)',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextFormField(
-              controller: authController.heightController,
-
-              decoration: InputDecoration(
-
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
-
-                  focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
-              ),
-            ),
-          ),
-        ),
+        InputField(controller: authController.heightController),
       ],
     );
   }
@@ -328,22 +204,7 @@ class Field3 extends ConsumerWidget {
       children: [
         Text('Allergies (if any)',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextFormField(
-              controller: authController.allergiesController,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
-
-                  focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
-              ),
-            ),
-          ),
-        ),
+        InputField(controller: authController.allergiesController),
         Gap(24.h),
         Text('Write down existing medical conditions(optional)',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
@@ -369,24 +230,7 @@ class Field3 extends ConsumerWidget {
 
         Text('Password',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
-        SizedBox(
-          height:
-          60.h,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: TextFormField(
-              controller: authController.passwordController,
-              keyboardType: TextInputType.number,
-            //  maxLines: 5,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
-
-                  focusedBorder:
-                  OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
-              ),
-            ),
-          ),
-        ),
+        InputField(controller: authController.passwordController),
 
 
 
@@ -394,4 +238,37 @@ class Field3 extends ConsumerWidget {
     );
   }
 }
+
+
+class InputField extends StatelessWidget {
+  const InputField({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height:
+      60.h,
+      child: Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: TextFormField(
+          cursorColor:
+          AppTheme.primary2,
+          controller: controller,
+          decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
+
+              focusedBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 

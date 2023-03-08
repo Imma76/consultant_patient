@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import '../../themes/app_theme.dart';
 
 class Indicator extends StatelessWidget {
-  const Indicator({Key? key}) : super(key: key);
+  final Color? color;
+  const Indicator({Key? key,this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: CircularProgressIndicator(color: AppTheme.primary,strokeWidth:
-      3,));
+    return Center(child: SizedBox(
+      child: CircularProgressIndicator(color: color,strokeWidth:
+        3,),
+    ));
   }
 }

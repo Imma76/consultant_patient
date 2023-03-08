@@ -1,3 +1,4 @@
+import 'package:consult_patient/src/utils/widgets/loader.dart';
 import 'package:consult_patient/src/views/authentication/sign_up.dart';
 import 'package:consult_patient/src/views/home/home_page.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../main.dart';
+import '../../all_providers/all_providers.dart';
+import '../../controllers/central_state.dart';
 import '../../themes/app_theme.dart';
 
 
@@ -20,8 +24,19 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final  authController = ref.read(authProvider);
+    final centralController = ref.read(centralProvider);
+  }
   @override
   Widget build(BuildContext context) {
+    final  authController = ref.watch(authProvider);
+    final centralController = ref.watch(centralProvider);
+    print( 'ppp${centralState.isAppLoading}');
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -54,6 +69,7 @@ mainAxisSize: MainAxisSize.min,
                   child: Padding(
                     padding: const EdgeInsets.all(3.0),
                     child: TextFormField(
+                      controller: authController.emailController,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
 
@@ -72,6 +88,7 @@ mainAxisSize: MainAxisSize.min,
                   child: Padding(
                     padding: const EdgeInsets.all(3.0),
                     child: TextFormField(
+                      controller: authController.passwordController,
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
 
@@ -81,12 +98,16 @@ mainAxisSize: MainAxisSize.min,
                     ),
                   ),
                 ),
-
                 Gap(104.h),
-                ElevatedButton(onPressed: (){
+                ElevatedButton(onPressed: ()async{
 
-Navigator.pushNamed(context, Homepage.id);
-                }, child:Text('Sign in',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary2,minimumSize: Size(382.w,58.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), ),
+                  if(authController.checkInputForSignIn()){
+
+
+                    await authController.signIn(centralController);
+                  }
+                }, child:centralController.isAppLoading?Indicator(color:
+                  AppTheme.white2,):Text('Sign in',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary2,minimumSize: Size(382.w,58.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), ),
             Gap(24.h),
                 GestureDetector(
               onTap: () {
@@ -97,7 +118,7 @@ Navigator.pushNamed(context, Homepage.id);
                   text: TextSpan(
                     children: <TextSpan>[
                       TextSpan(
-                          text: 'Dont have an account?',
+                          text: 'Don\'t have an account?',
                           style: GoogleFonts.dmSans(
 
                               fontSize: 16.sp,
