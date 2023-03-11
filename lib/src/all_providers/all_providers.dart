@@ -8,6 +8,8 @@ import 'package:consult_patient/src/controllers/user_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../controllers/consultant_controller.dart';
+
 //
 // final centralProvider = ChangeNotifierProvider((ref) {
 //
@@ -68,3 +70,5 @@ final centralProvider = ChangeNotifierProvider<CentralState>((ref) =>CentralStat
 final userProvider = ChangeNotifierProvider<UserController
 >((ref) => UserController());
 final authProvider = ChangeNotifierProvider<AuthController>((ref) => AuthController());
+final consultantProvider = ChangeNotifierProvider<ConsultantController
+>((ref) => ConsultantController());

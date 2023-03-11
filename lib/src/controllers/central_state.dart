@@ -15,7 +15,7 @@ class CentralState extends ChangeNotifier{
   bool isPhoneVerified=false;
   bool? isFirstTime = true;
 
-  void startLoading(){
+   startLoading(){
 
     isAppLoading=true;
     notifyListeners();

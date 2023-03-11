@@ -43,6 +43,7 @@ dependencies:
   firebase_auth:
   firebase_core:
   bot_toast:
+  cached_network_image:
   google_fonts:
   flutter_rating_bar:
   device_preview:

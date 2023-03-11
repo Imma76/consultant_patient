@@ -11,13 +11,11 @@ class UserController extends ChangeNotifier{
 
   Patient? patient;
   init()async{
-
     centralState.startLoading();
    patient= await PatientService.findPatientById(FirebaseAuth
        .instance.currentUser
    !.uid);
    centralState.stopLoading();
-
    notifyListeners();
   }
 }

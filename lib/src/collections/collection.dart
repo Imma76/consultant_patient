@@ -7,4 +7,5 @@ FirebaseFirestore firebaseCloud= FirebaseFirestore.instance;
 class Collections{
 
   static CollectionReference patientCollection = firebaseCloud.collection("patients");
+  static CollectionReference consultant = firebaseCloud.collection("consultants");
 }

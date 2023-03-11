@@ -1,4 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:consult_patient/src/all_providers/all_providers.dart';
+import 'package:consult_patient/src/models/consultant_model.dart';
 import 'package:consult_patient/src/views/profile/consultants_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,12 +36,15 @@ class _HomepageState extends ConsumerState<Homepage> {
     // TODO: implement initState
     super.initState();
     final centralController = ref.read(centralProvider);
+    final consultantController = ref.read(consultantProvider);
   }
   @override
   Widget build(BuildContext context) {
     final authController = ref.watch(authProvider);
     final userController = ref.watch(userProvider);
     final centralController = ref.watch(centralProvider);
+    final consultantController = ref.watch(consultantProvider);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor:
@@ -101,27 +107,44 @@ class _HomepageState extends ConsumerState<Homepage> {
                 ],
               ),
               Gap(16.h),
-              SizedBox(
-                height: 100.h,
-                child: ListView.builder(
-                  itemCount: 10,
-                  shrinkWrap:true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context,index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left:8.0,right: 8),
-                      child: GestureDetector(
-                          onTap: ()async{
-                            // print('logout');
-                            centralState.startLoading();
-                            await FirebaseAuth.instance.signOut();
-                            centralState.stopLoading();
-                         //   Navigator.pushNamed(context,ConsultantProfile.id);
-                          },
-                          child: ConsultantAvatar()),
-                    );
-                  }
-                ),
+              StreamBuilder<QuerySnapshot>(
+                stream: consultantController.getConsultants(),
+                builder: (context, snapshot) {
+                 if(snapshot.connectionState == ConnectionState.waiting){
+
+                   print('waiting');
+                   return Indicator();
+
+                 }
+                 if(snapshot.hasError ){
+                   return Text('Unable to load consultants');
+                 }
+               //  Consultant consultant = Consultant.fromJson(snapshot.data! as Map);
+                  return SizedBox(
+                    height: 100.h,
+                    child: ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      shrinkWrap:true,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context,index) {
+                        Consultant consultant = Consultant.fromJson(snapshot.data!.docs[index].data() as Map);
+
+                        return Padding(
+                          padding: const EdgeInsets.only(left:8.0,right: 8),
+                          child: GestureDetector(
+                              onTap: ()async{
+                                // print('logout');
+                                // centralState.startLoading();
+                                // await FirebaseAuth.instance.signOut();
+                                // centralState.stopLoading();
+                             //   Navigator.pushNamed(context,ConsultantProfile.id);
+                              },
+                              child: ConsultantAvatar(consultant: consultant,)),
+                        );
+                      }
+                    ),
+                  );
+                }
               ),
               Container(
                 height: 43.h,
@@ -245,29 +268,39 @@ class Avatar extends ConsumerWidget {
 }
 
 class ConsultantAvatar extends StatelessWidget {
+  final Consultant? consultant;
   const ConsultantAvatar({
-    Key? key,
+    Key? key,this.consultant
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    return Column(
-      children: [
-        CircleAvatar(
-         backgroundImage: AssetImage('assets/consultant_image.png'),
-          backgroundColor: AppTheme.white,
-        ),
-        Gap(8.h),
-        Row(
-          children: [
-            Text('Dr. Margaret Elom',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.bold)),
-            Gap(5),
-            CircleAvatar(radius: 2,backgroundColor: AppTheme.primary,),
+    return GestureDetector(
+      onTap: (){
 
-          ],
-        )
-      ],
+        Navigator.pushNamed(context, ConsultantProfile.id,arguments: consultant);
+      },
+      child: Column(
+        children: [
+          CircleAvatar(
+            backgroundImage: CachedNetworkImageProvider(consultant!.photoUrl.toString() ,),
+          // child:CachedNetworkImage(),
+           //AssetImage('assets/consultant_image.png'),
+            backgroundColor: AppTheme.white,
+          ),
+          Gap(8.h),
+          Row(
+            children: [
+              Text('Dr.${consultant!
+              .firstName} ${consultant!.lastName}',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.bold)),
+              Gap(5),
+              CircleAvatar(radius: 2,backgroundColor: AppTheme.primary,),
+
+            ],
+          )
+        ],
+      ),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:consult_patient/src/models/consultant_model.dart';
 import 'package:consult_patient/src/views/booking/time_slots/time_slots.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -12,6 +14,7 @@ import '../booking/date_slot.dart';
 
 
 class ConsultantProfile extends ConsumerStatefulWidget {
+
   static const id='consultant profile';
   const ConsultantProfile({
     Key? key,
@@ -22,8 +25,10 @@ class ConsultantProfile extends ConsumerStatefulWidget {
 }
 
 class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
+
   @override
   Widget build(BuildContext context) {
+    final consultant = ModalRoute.of(context)!.settings.arguments as Consultant;
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppTheme.backgroundColor,
@@ -53,12 +58,13 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                 ),
                 Gap(16.h),
                 CircleAvatar(
-                  backgroundImage: AssetImage('assets/consultant_image.png'),
+                  backgroundImage: CachedNetworkImageProvider(consultant!.photoUrl.toString() ,),
                   backgroundColor: AppTheme.white,
                   radius: 58,
                 ),
                 Gap(16),
-                Text('Dr. Henry Onah',style: GoogleFonts
+                Text('Dr.${consultant!
+                    .firstName} ${consultant!.lastName}',style: GoogleFonts
                     .poppins(
                     fontSize: 16.sp,
                     color: AppTheme.black2,
@@ -93,7 +99,8 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                                               color: AppTheme.black2,
                                               fontWeight: FontWeight.w600)),
                                       TextSpan(
-                                          text: ' Ikechukwu',
+                                          text: ' ${consultant!
+                                              .firstName} ',
                                           style: GoogleFonts.poppins(
                                               fontSize: 12.sp,
                                               color: AppTheme.black2
@@ -119,7 +126,8 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                                               color: AppTheme.black2,
                                               fontWeight: FontWeight.w600)),
                                       TextSpan(
-                                          text: ' Ikechukwu',
+                                          text: ' ${consultant!
+                                              .lastName} ',
                                           style: GoogleFonts.poppins(
                                               fontSize: 12.sp,
                                               color: AppTheme.black2
@@ -145,7 +153,8 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                                               color: AppTheme.black2,
                                               fontWeight: FontWeight.w600)),
                                       TextSpan(
-                                          text: ' Enugu',
+                                          text: ' ${consultant!
+                                              .stateOfOrigin} ',
                                           style: GoogleFonts.poppins(
                                               fontSize: 12.sp,
                                               color: AppTheme.black2
@@ -171,7 +180,8 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                                               color: AppTheme.black2,
                                               fontWeight: FontWeight.w600)),
                                       TextSpan(
-                                          text: ' Gynacology',
+                                          text: ' ${consultant!
+                                              .areaOfSpecialty}',
                                           style: GoogleFonts.poppins(
                                               fontSize: 12.sp,
                                               color: AppTheme.black2
