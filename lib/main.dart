@@ -3,6 +3,7 @@ import 'package:consult_patient/firebase_options.dart';
 import 'package:consult_patient/src/all_providers/all_providers.dart';
 import 'package:consult_patient/src/controllers/central_state.dart';
 import 'package:consult_patient/src/routes/routes.dart';
+import 'package:consult_patient/src/themes/app_theme.dart';
 import 'package:consult_patient/src/utils/widgets/loader.dart';
 import 'package:consult_patient/src/views/authentication/login.dart';
 import 'package:consult_patient/src/views/authentication/sign_up.dart';
@@ -20,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -96,14 +98,16 @@ class _LoadAppState extends ConsumerState<LoadApp> {
   @override
   Widget build(BuildContext context) {
     final centralController = ref.watch(centralProvider);
-
-        if(centralController.isUserPresent){
+    if(centralController.isAppLoading) {
+      return Scaffold(
+          backgroundColor: AppTheme.lightGreen,
+          body:SpinKitFadingCircle(color: AppTheme.primary,));
+    }
+      if(centralController.isUserPresent){
           return Homepage();
         }
-        if(centralController.isAppLoading){
+          //Indicator();
 
-          return Scaffold(body:Indicator());
-        }
         return WelcomeScreen();
 
   }

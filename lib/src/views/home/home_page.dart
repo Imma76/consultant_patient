@@ -49,7 +49,8 @@ class _HomepageState extends ConsumerState<Homepage> {
       child: Scaffold(
         backgroundColor:
         AppTheme.lightGreen,
-        body:centralController.isAppLoading?Indicator(): Padding(
+        body://centralController.isAppLoading?Indicator():
+        Padding(
           padding: const EdgeInsets.only(left:24.0,right:24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

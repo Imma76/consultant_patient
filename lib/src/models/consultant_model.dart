@@ -18,11 +18,12 @@ class Consultant{
   String? photoUrl;
   String?history;
   double? ratings;
+  String? consultantId;
   Consultant({this.email,this.userName,this.lastName,this.userId,this.firstName,this.phoneNumber,this.areaOfSpecialty,this.cv
     ,this.createdAt,this.age,this.gender,this.history
     ,this.medicalLicense,this.photoUrl
     ,this.residentialAddress
-    ,this.stateOfOrigin,this.lga,this.ratings});
+    ,this.stateOfOrigin,this.lga,this.ratings,this.consultantId});
 
   Consultant.fromJson(Map<dynamic,dynamic> data){
 
@@ -40,9 +41,10 @@ class Consultant{
     userId=data['userId'];
     lga=data['lga'];
     phoneNumber=data['phoneNumber'];
-    ratings=data['ratings'];
+    ratings=double.parse(data['ratings'].toString());
     stateOfOrigin=data['stateOfOrigin'];
     areaOfSpecialty=data['areaOfSpecialty'];
+    consultantId=data['userId'];
   }
 
   toJson(){
@@ -65,6 +67,7 @@ class Consultant{
     data['ratings']=ratings;
     data['stateOfOrigin']=stateOfOrigin;
     data['areaOfSpecialty']=areaOfSpecialty;
+    data['consultantId']=consultantId;
     return data;
   }
 }

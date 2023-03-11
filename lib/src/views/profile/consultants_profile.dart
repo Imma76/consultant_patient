@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:consult_patient/src/all_providers/all_providers.dart';
 import 'package:consult_patient/src/models/consultant_model.dart';
+import 'package:consult_patient/src/utils/widgets/loader.dart';
 import 'package:consult_patient/src/views/booking/time_slots/time_slots.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -29,6 +31,7 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
   @override
   Widget build(BuildContext context) {
     final consultant = ModalRoute.of(context)!.settings.arguments as Consultant;
+    final consultantController = ref.read(consultantProvider);
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppTheme.backgroundColor,
@@ -276,15 +279,14 @@ tapOnlyMode: true,
                               AppTheme.white2,),
                             ),
                             itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
+                            onRatingUpdate: consultantController.updateRating,
                           ),
                             Gap(24.h),
-                            ElevatedButton(onPressed: () {
+                            ElevatedButton(onPressed: () async{
+                              print('rating');
+                              await consultantController.rateConsultant(currentRatings: consultant.ratings, consultantId: consultant.consultantId);
                               Navigator.pop(context);
-
-                            },
+                             },
                               child: Text('Done', style: GoogleFonts.poppins(
                                   color: AppTheme.white,
                                   fontSize: 20.sp,
@@ -300,7 +302,7 @@ tapOnlyMode: true,
 
 
                 },
-                  child: Text('Rate Dr. Henry Onah', style: GoogleFonts.poppins(
+                  child:consultantController.load?Indicator(color: AppTheme.white,): Text('Rate Dr. Henry Onah', style: GoogleFonts.poppins(
                       color: AppTheme.white,
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w700),),
