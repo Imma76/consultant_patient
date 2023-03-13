@@ -1,4 +1,4 @@
-class Consultant{
+class ConsultantModel{
 
   String? userName;
   String? email;
@@ -19,13 +19,13 @@ class Consultant{
   String?history;
   double? ratings;
   String? consultantId;
-  Consultant({this.email,this.userName,this.lastName,this.userId,this.firstName,this.phoneNumber,this.areaOfSpecialty,this.cv
+  ConsultantModel({this.email,this.userName,this.lastName,this.userId,this.firstName,this.phoneNumber,this.areaOfSpecialty,this.cv
     ,this.createdAt,this.age,this.gender,this.history
     ,this.medicalLicense,this.photoUrl
     ,this.residentialAddress
     ,this.stateOfOrigin,this.lga,this.ratings,this.consultantId});
 
-  Consultant.fromJson(Map<dynamic,dynamic> data){
+  ConsultantModel.fromJson(Map<dynamic,dynamic> data){
 
     userName=data['userName'];
     email=data['email'];

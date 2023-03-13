@@ -30,7 +30,7 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final consultant = ModalRoute.of(context)!.settings.arguments as Consultant;
+    final consultant = ModalRoute.of(context)!.settings.arguments as ConsultantModel;
     final consultantController = ref.read(consultantProvider);
     return SafeArea(
       child: Scaffold(

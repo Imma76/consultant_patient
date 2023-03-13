@@ -1,4 +1,4 @@
-class Patient{
+class PatientModel{
 
   String? userName;
   String? email;
@@ -12,9 +12,9 @@ class Patient{
   DateTime? createdAt;
   String? userId;
   String? medicalConditions;
-  Patient({this.email,this.userName,this.lastName,this.userId,this.firstName,this.medicalConditions,this.allergies,this.height,this.createdAt,this.age,this.gender,this.weight});
+  PatientModel({this.email,this.userName,this.lastName,this.userId,this.firstName,this.medicalConditions,this.allergies,this.height,this.createdAt,this.age,this.gender,this.weight});
 
-  Patient.fromJson(Map<dynamic,dynamic> data){
+  PatientModel.fromJson(Map<dynamic,dynamic> data){
     userName=data['userName'];
     email=data['email'];
     firstName=data['firstName'];

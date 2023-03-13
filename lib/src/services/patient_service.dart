@@ -14,7 +14,7 @@ class PatientService{
       QuerySnapshot user = await Collections.patientCollection.where(userName,isEqualTo:"userName").get();
       if(user.docs.isNotEmpty){
         final userData = user as Map<dynamic,dynamic>;
-        return Patient.fromJson(userData);
+        return PatientModel.fromJson(userData);
       }
       return null;
 
@@ -32,7 +32,7 @@ class PatientService{
      if(!user.exists){
        return null;
      }
-       return Patient.fromJson(user.data() as Map
+       return PatientModel.fromJson(user.data() as Map
        );
 
    }on SocketException{
@@ -42,7 +42,7 @@ class PatientService{
    }
  }
 
- static Future createPatient(Patient patient)async{
+ static Future createPatient(PatientModel patient)async{
    try{
      final user = await Collections.patientCollection.doc(patient.userId).set(patient.toJson());
      return true;

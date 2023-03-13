@@ -7,7 +7,7 @@ import '../models/consultant_model.dart';
 import '../utils/widgets/reusable_widget.dart';
 
 class ConsultantController extends ChangeNotifier{
-  Consultant? consultant;
+  ConsultantModel? consultant;
   double ratings = 0;
 
 

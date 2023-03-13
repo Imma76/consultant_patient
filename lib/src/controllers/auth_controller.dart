@@ -26,7 +26,7 @@ class AuthController extends ChangeNotifier{
   TextEditingController userNameController= TextEditingController();
 
 
-  Patient? patient;
+  PatientModel? patient;
 
   AuthService authService = AuthService();
   Future signIn(centralState)async{
@@ -102,7 +102,7 @@ class AuthController extends ChangeNotifier{
       centralState.stopLoading();
       return;
     }
-     patient =Patient(
+     patient =PatientModel(
       email: emailController.text.trim(),
       userName: userNameController.text.trim(),
       allergies: allergiesController.text.trim(),

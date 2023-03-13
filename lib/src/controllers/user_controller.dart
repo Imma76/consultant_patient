@@ -9,7 +9,7 @@ import '../services/patient_service.dart';
 
 class UserController extends ChangeNotifier{
 
-  Patient? patient;
+  PatientModel? patient;
   init()async{
     centralState.startLoading();
    patient= await PatientService.findPatientById(FirebaseAuth

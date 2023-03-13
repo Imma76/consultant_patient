@@ -128,7 +128,7 @@ class _HomepageState extends ConsumerState<Homepage> {
                       shrinkWrap:true,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context,index) {
-                        Consultant consultant = Consultant.fromJson(snapshot.data!.docs[index].data() as Map);
+                        ConsultantModel consultant = ConsultantModel.fromJson(snapshot.data!.docs[index].data() as Map);
 
                         return Padding(
                           padding: const EdgeInsets.only(left:8.0,right: 8),
@@ -269,7 +269,7 @@ class Avatar extends ConsumerWidget {
 }
 
 class ConsultantAvatar extends StatelessWidget {
-  final Consultant? consultant;
+  final ConsultantModel? consultant;
   const ConsultantAvatar({
     Key? key,this.consultant
   }) : super(key: key);
