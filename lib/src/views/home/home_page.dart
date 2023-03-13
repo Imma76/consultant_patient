@@ -45,6 +45,9 @@ class _HomepageState extends ConsumerState<Homepage> {
     final centralController = ref.watch(centralProvider);
     final consultantController = ref.watch(consultantProvider);
 
+    // ref.read(appointmentProvider);
+
+
     return SafeArea(
       child: Scaffold(
         backgroundColor:

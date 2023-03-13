@@ -27,10 +27,17 @@ class ConsultantProfile extends ConsumerStatefulWidget {
 }
 
 class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ref.read(appointmentProvider);
+  }
 
   @override
   Widget build(BuildContext context) {
     final consultant = ModalRoute.of(context)!.settings.arguments as ConsultantModel;
+    final appointmentController= ref.watch(appointmentProvider);
     final consultantController = ref.read(consultantProvider);
     return SafeArea(
       child: Scaffold(
@@ -228,7 +235,7 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                 ),
                 Gap(58.h),
                 ElevatedButton(onPressed: () {
-
+                  appointmentController.selectedConsultant(consultant);
                   Navigator.pushNamed(context,DateSlot.id);
                 },
                   child: Text('Book an appointment', style: GoogleFonts.poppins(

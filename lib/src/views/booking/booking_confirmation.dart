@@ -22,6 +22,7 @@ class ConfirmationScreen extends ConsumerStatefulWidget {
 class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
   @override
   void initState() {
+
     // TODO: implement initState
 
 Future.delayed(Duration(seconds: 3),(){

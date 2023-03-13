@@ -28,8 +28,8 @@ class PatientModel{
     userId=data['userId'];
   }
 
-  toJson(){
-    Map<String,dynamic> data={};
+   toJson(){
+    Map<String,dynamic> data=<String, dynamic>{};
     data['userName']=userName;
     data['email']=email;
     data['firstName']=firstName;

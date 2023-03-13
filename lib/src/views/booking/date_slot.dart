@@ -7,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../all_providers/all_providers.dart';
 import '../../themes/app_theme.dart';
 
 
@@ -22,7 +23,14 @@ class DateSlot extends ConsumerStatefulWidget {
 
 class _DateSlotState extends ConsumerState<DateSlot> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ref.read(appointmentProvider);
+  }
+  @override
   Widget build(BuildContext context) {
+    final appointmentController= ref.watch(appointmentProvider);
     return Scaffold(
       appBar: PrimaryAppBar(context),
 backgroundColor: AppTheme.backgroundColor,
@@ -115,6 +123,7 @@ daysOfWeekHeight:
                     padding: const EdgeInsets.only(top:8.0),
                     child: GestureDetector(
                       onTap: (){
+                        appointmentController.changeSelectedDate(date);
                         Navigator.pushNamed(context, SelectTimeSlot.id);},
                       child: Container(
                           alignment: Alignment.center,
@@ -149,7 +158,19 @@ daysOfWeekHeight:
                 (BuildContext context, DateTime date, _) {
               return GestureDetector(
                 onTap: (){
-                  Navigator.pushNamed(context, SelectTimeSlot.id);},
+                  if(
+                  date.isAfter(DateTime.now())==true
+                  //||
+                     // DateTime.now().isAtSameMomentAs(date)==true
+                  ){
+
+                    appointmentController.changeSelectedDate(date);
+                    Navigator.pushNamed(context, SelectTimeSlot.id);
+                  }else{
+                    print('efore');
+                  }
+
+                  },
                 child : Padding(
                   padding: const EdgeInsets.only(top:8.0),
                   child: Container(
@@ -183,7 +204,11 @@ daysOfWeekHeight:
             }, outsideBuilder: (context, date, _) {
               return GestureDetector(
                 onTap: (){
-                  Navigator.pushNamed(context, SelectTimeSlot.id);},
+                  if(date.month > DateTime.now().month){
+    Navigator.pushNamed(context, SelectTimeSlot.id);
+
+                  }
+    },
                 child: Padding(
                   padding: const EdgeInsets.only(top:8.0),
                   child: Container(

@@ -1,4 +1,6 @@
+import 'package:consult_patient/src/all_providers/all_providers.dart';
 import 'package:consult_patient/src/utils/widgets/app_bar.dart';
+import 'package:consult_patient/src/utils/widgets/loader.dart';
 import 'package:consult_patient/src/views/booking/booking_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,13 +23,15 @@ class SelectTimeSlot extends ConsumerStatefulWidget {
 }
 
 class _SelectTimeSlotState extends ConsumerState<SelectTimeSlot> {
+
   @override
   Widget build(BuildContext context) {
+    final appointmentController= ref.watch(appointmentProvider);
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: PrimaryAppBar(context),
 
-      body: Column(
+      body: appointmentController.load?Indicator(color: AppTheme.primary,): Column(
         children: [
           Row(
 
@@ -50,15 +54,34 @@ class _SelectTimeSlotState extends ConsumerState<SelectTimeSlot> {
           Gap(130.h),
           GestureDetector(
               onTap: (){
-                Navigator.pushNamed(context, ConfirmationScreen.id);
+                appointmentController.selectedTimeSlot(startTime: appointmentController.startTime1,endTime: '${appointmentController.endTime1}' );
               },
-              child: TimeSlots()),
+              child: TimeSlots(startTime: appointmentController.startTime1,endTime: '${appointmentController.endTime1} AM',)),
           Gap(24.h),
-          TimeSlots(),
+          GestureDetector(
+              onTap: (){
+                appointmentController.selectedTimeSlot(startTime: appointmentController.startTime2,endTime: '${appointmentController.endTime2}' );
+              },
+              child: TimeSlots(startTime: appointmentController.startTime2,endTime: '${appointmentController.endTime2} AM')),
           Gap(24.h),
-          TimeSlots(),
+          GestureDetector(
+              onTap: (){
+                appointmentController.selectedTimeSlot(startTime: appointmentController.startTime3,endTime: '${appointmentController.endTime3}' );
+              },
+              child: TimeSlots(startTime: appointmentController.startTime3,endTime:'${appointmentController.endTime3} PM')),
           Gap(24.h),
-          TimeSlots()
+          GestureDetector(
+              onTap: (){
+                appointmentController.selectedTimeSlot(startTime: appointmentController.startTime4,endTime: '${appointmentController.endTime4}' );
+              },
+              child: TimeSlots(startTime: appointmentController.startTime4,endTime: '${appointmentController.endTime4} PM')),
+          Gap(24.h),
+          GestureDetector(
+              onTap: (){
+                appointmentController.selectedTimeSlot(startTime: appointmentController.startTime5,endTime: '${appointmentController.endTime5}' );
+              },
+              child: TimeSlots(startTime: appointmentController.startTime5,endTime: '${appointmentController.endTime5} PM'))
+
 
         ],
       ),
@@ -67,19 +90,22 @@ class _SelectTimeSlotState extends ConsumerState<SelectTimeSlot> {
   }
 }
 
-class TimeSlots extends StatelessWidget {
+class TimeSlots extends ConsumerWidget {
+  final String? startTime;
+  final String? endTime;
   const TimeSlots({
-    Key? key,
+    Key? key,this.startTime,this.endTime
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,ref) {
+    final appointmentController= ref.watch(appointmentProvider);
     return Container(
       width: 382.w,height:49.h,
       child: Row(
         children: [
           Gap(63.w),
-          Text('8:00 - 9:30 Am',style: GoogleFonts.poppins(
+          Text('$startTime - $endTime ',style: GoogleFonts.poppins(
           color: AppTheme.primary3,
               fontSize: 20.sp,
               fontWeight: FontWeight.w500),),

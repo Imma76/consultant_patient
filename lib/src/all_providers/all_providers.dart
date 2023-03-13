@@ -2,6 +2,7 @@
 
 
 
+import 'package:consult_patient/src/controllers/appointment_controller.dart';
 import 'package:consult_patient/src/controllers/auth_controller.dart';
 import 'package:consult_patient/src/controllers/central_state.dart';
 import 'package:consult_patient/src/controllers/user_controller.dart';
@@ -72,3 +73,4 @@ final userProvider = ChangeNotifierProvider<UserController
 final authProvider = ChangeNotifierProvider<AuthController>((ref) => AuthController());
 final consultantProvider = ChangeNotifierProvider<ConsultantController
 >((ref) => ConsultantController());
+final appointmentProvider =ChangeNotifierProvider<AppointmentController>((ref) => AppointmentController());
