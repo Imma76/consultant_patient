@@ -158,11 +158,7 @@ daysOfWeekHeight:
                 (BuildContext context, DateTime date, _) {
               return GestureDetector(
                 onTap: (){
-                  if(
-                  date.isAfter(DateTime.now())==true
-                  //||
-                     // DateTime.now().isAtSameMomentAs(date)==true
-                  ){
+                  if(date.isAfter(DateTime.now())==true){
 
                     appointmentController.changeSelectedDate(date);
                     Navigator.pushNamed(context, SelectTimeSlot.id);

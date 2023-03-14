@@ -40,6 +40,7 @@ class ConsultantModel{
     history=data['history'];
     userId=data['userId'];
     lga=data['lga'];
+    createdAt=data['createdAt'].toDate();
     phoneNumber=data['phoneNumber'];
     ratings=double.parse(data['ratings'].toString());
     stateOfOrigin=data['stateOfOrigin'];

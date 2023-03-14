@@ -22,6 +22,7 @@ class PatientModel{
     age=data['age'];
     weight=data['weight'];
     height=data['height'];
+    createdAt=data['createdAt'].toDate();
     gender=data['gender'];
     allergies=data['allergies'];
     medicalConditions=data['medicalConditions'];
@@ -41,6 +42,7 @@ class PatientModel{
     data['allergies']=allergies;
     data['userId']=userId;
     data['createdAt']=createdAt;
+    data['medicalConditions']=medicalConditions;
     return data;
   }
 }

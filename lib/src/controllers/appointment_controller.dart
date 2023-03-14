@@ -57,7 +57,11 @@ class AppointmentController extends ChangeNotifier{
     print('k');
    // PatientModel? patientModel = PatientModel(firstName: userController.patient!.firstName,lastName: userController.patient!.lastName);
     //ConsultantModel? _consultantModel= ConsultantModel(firstName: consultantModel!.firstName,lastName: consultantModel!.firstName);
-
+    if(int.parse(selectedEndTime!.split(":")[0].toString())<8 &&int.parse(selectedStartTime!.split(":")[0].toString())<8){
+      selectedEndTime = '${(12+int.parse(selectedEndTime!.split(":")[0].toString()))}:${selectedEndTime!.split(":")[1]}';
+      selectedStartTime='${(12+int.parse(selectedStartTime!.split(":")[0].toString()))}:${selectedStartTime!.split(":")[1]}';
+    }
+    print('$selectedStartTime $selectedEndTime');
     AppointmentModel appointmentModel = AppointmentModel(
       appointmentDate: '${selectedDate!.year}-${selectedDate!.month}-${selectedDate!.day}',
       appointmentEnd: DateTime(

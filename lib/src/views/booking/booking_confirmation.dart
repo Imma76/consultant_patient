@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../all_providers/all_providers.dart';
 import '../../themes/app_theme.dart';
 
 class ConfirmationScreen extends ConsumerStatefulWidget {
@@ -23,6 +24,7 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
   @override
   void initState() {
 
+
     // TODO: implement initState
 
 Future.delayed(Duration(seconds: 3),(){
@@ -31,6 +33,7 @@ Future.delayed(Duration(seconds: 3),(){
   }
   @override
   Widget build(BuildContext context) {
+    final appointmentController= ref.read(appointmentProvider);
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppTheme.backgroundColor,
@@ -57,7 +60,7 @@ Future.delayed(Duration(seconds: 3),(){
 Gap(16.5),
                       Padding(
                         padding: const EdgeInsets.only(left: 30.0,right:21,bottom: 30),
-                        child: Center(child: Text('You have secured the 10:00-11:00AM slot with  Dr. henry onah. A reminder will be sent to your email shortly before your consultation',textAlign:TextAlign.center,style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 19.sp,fontWeight: FontWeight.w500))),
+                        child: Center(child: Text('You have secured the ${appointmentController.selectedStartTime}-${appointmentController.selectedEndTime} slot with  Dr. henry onah. A reminder will be sent to your email shortly before your consultation',textAlign:TextAlign.center,style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 19.sp,fontWeight: FontWeight.w500))),
                       ),
 
                     ],
