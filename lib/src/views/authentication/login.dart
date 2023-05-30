@@ -114,6 +114,7 @@ mainAxisSize: MainAxisSize.min,
             Gap(24.h),
                 GestureDetector(
               onTap: () {
+                authController.clearControllers();
                Navigator.pushNamed(context, SignUpScreen.id);
               },
               child: Center(

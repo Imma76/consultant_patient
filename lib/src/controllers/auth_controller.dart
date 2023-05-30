@@ -54,6 +54,8 @@ class AuthController extends ChangeNotifier{
     emailController.clear();
     passwordController.clear();
     genderController.clear();
+    firstNameController.clear();
+    lastNameController.clear();
 
   }
 
