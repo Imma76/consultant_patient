@@ -1,5 +1,7 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:consult_patient/main.dart';
+import 'package:consult_patient/src/collections/collection.dart';
 import 'package:consult_patient/src/controllers/user_controller.dart';
 import 'package:consult_patient/src/models/appointment_model.dart';
 import 'package:consult_patient/src/models/consultant_model.dart';
@@ -8,12 +10,14 @@ import 'package:consult_patient/src/services/appointment_service.dart';
 import 'package:consult_patient/src/views/booking/booking_confirmation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AppointmentController extends ChangeNotifier{
   bool load = false;
 
   DateTime? selectedDate;
-
+  String? appointmentStartTime = '';
+  String? appointmentEndTime ='';
   String? startTime1='8:00';
   String? startTime2='10:00';
   String? startTime3='2:00';
@@ -24,11 +28,69 @@ class AppointmentController extends ChangeNotifier{
   String? endTime3 = '3:45';
   String? endTime4 = '6:25';
   String? endTime5 = '7:30';
-
   String? selectedEndTime;
   String? selectedStartTime;
   String? appointmentTime;
+  DateTime? appointmentDateTimeStartTime;
+  DateTime? appointmentDateTimeEndTime;
   ConsultantModel? consultantModel;
+
+  List<String> timeSlots = [];
+
+  List<AppointmentModel> appointmentHistory = [];
+
+
+
+  generateTimeSlots() {
+    List<TimeOfDay> timeSlots = [];
+    TimeOfDay startTime = TimeOfDay(hour: 8, minute: 0);
+    TimeOfDay endTime = TimeOfDay(hour: 19, minute: 30);
+
+    while (startTime != endTime) {
+      timeSlots.add(startTime);
+      startTime = TimeOfDay.fromDateTime(
+        DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+          startTime.hour,
+          startTime.minute,
+        ).add(const Duration(minutes: 30)),
+      );
+    }
+    timeSlots.add(endTime);
+
+
+  }
+
+  List<String> generateTimeSlots2() {
+   timeSlots.clear();
+    TimeOfDay startTime = TimeOfDay(hour: 8, minute: 0);
+    TimeOfDay endTime = TimeOfDay(hour: 19, minute: 30);
+
+    while (startTime != endTime) {
+      String slot = '${formatTime(startTime)} - ${formatTime(getNextTime(startTime))}';
+      timeSlots.add(slot);
+      startTime = getNextTime(startTime);
+    }
+    String slot = '${formatTime(endTime)} - ${formatTime(getNextTime(endTime))}';
+    timeSlots.add(slot);
+    print(timeSlots.length);
+    return timeSlots;
+  }
+
+  TimeOfDay getNextTime(TimeOfDay currentTime) {
+    int minutes = currentTime.hour * 60 + currentTime.minute;
+    minutes += 30;
+    return TimeOfDay(hour: minutes ~/ 60, minute: minutes % 60);
+  }
+
+  String formatTime(TimeOfDay time) {
+    String hour = time.hourOfPeriod.toString().padLeft(2, '0');
+    String minute = time.minute.toString().padLeft(2, '0');
+    String period = time.period == DayPeriod.am ? 'AM' : 'PM';
+    return '$hour:$minute $period';
+  }
 
   selectedConsultant(ConsultantModel? newConsultantModel){
 
@@ -41,6 +103,10 @@ class AppointmentController extends ChangeNotifier{
     notifyListeners();
   }
 
+  Stream<QuerySnapshot> getAppointmentStream(){
+    return Collections.appointment.where('patient.userId',isEqualTo:userController.patient!.userId).snapshots();
+  }
+
   selectedTimeSlot({String? startTime, String? endTime})async{
 
     selectedEndTime= endTime;
@@ -51,17 +117,89 @@ class AppointmentController extends ChangeNotifier{
     await saveAppointment();
 
   }
+  selectedTimeSlot2(String time)async{
+
+
+    splitTimeToSeparateTime(time);
+    await saveAppointment2();
+
+  }
+
+  List<String> generateTimeSlots3() {
+    List<String> timeSlots2 = [];
+    TimeOfDay startTime = TimeOfDay(hour: 8, minute: 0);
+    TimeOfDay endTime = TimeOfDay(hour: 19, minute: 30);
+
+    while (startTime != endTime) {
+      String slot = formatTime(startTime);
+      timeSlots2.add(slot);
+      startTime = getNextTime2(startTime, 30);
+    }
+    String slot = formatTime2(endTime);
+    timeSlots2.add(slot);
+    print(timeSlots2);
+
+    return timeSlots2;
+  }
+
+  TimeOfDay getNextTime2(TimeOfDay currentTime, int minutesToAdd) {
+    int minutes = currentTime.hour * 60 + currentTime.minute;
+    minutes += minutesToAdd;
+    return TimeOfDay(hour: minutes ~/ 60, minute: minutes % 60);
+  }
+
+  String formatTime2(TimeOfDay time) {
+    String hour = time.hour.toString().padLeft(2, '0');
+    String minute = time.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
+  }
+
+  splitTimeToSeparateTime(String timeString){
+    // Split the string using the '-' delimiter
+    List<String> timeRange = timeString.split('-');
+
+// Extract the start and end time strings
+    String startTime = timeRange[0];
+    String endTime = timeRange[1];
+
+// Trim any leading or trailing whitespace
+    startTime = startTime.trim();
+    endTime = endTime.trim();
+    appointmentStartTime = startTime;
+    appointmentEndTime = endTime;
+    putEndTimeInDateTimeObject(startTime, endTime);
+    print('Start Time: $startTime');
+    print('End Time: $endTime');
+  }
+
+  putEndTimeInDateTimeObject(String startTimeValue, String endTimeValue){
+    String startTimeString = startTimeValue;
+    String endTimeString = endTimeValue;
+
+// Create a DateTime object for today
+    DateTime now = DateTime(selectedDate!.year,selectedDate!.month,selectedDate!.day);
+
+// Combine the date portion from 'now' with the time portion from 'startTimeString'
+    String combinedDateStartTimeString = DateFormat('yyyy-MM-dd').format(now) + ' ' + startTimeString;
+    String combinedDateEndTimeString = DateFormat('yyyy-MM-dd').format(now) + ' ' + endTimeString;
+
+// Parse the combined date and time string into a DateTime object
+     appointmentDateTimeStartTime = DateFormat('yyyy-MM-dd hh:mm a').parse(combinedDateStartTimeString);
+    appointmentDateTimeEndTime = DateFormat('yyyy-MM-dd hh:mm a').parse(combinedDateEndTimeString);
+
+    print('Start Time: $appointmentDateTimeStartTime');
+  }
+
 
   saveAppointment()async{
     print(userController.patient!.lastName);
-    print('k');
+
    // PatientModel? patientModel = PatientModel(firstName: userController.patient!.firstName,lastName: userController.patient!.lastName);
     //ConsultantModel? _consultantModel= ConsultantModel(firstName: consultantModel!.firstName,lastName: consultantModel!.firstName);
     if(int.parse(selectedEndTime!.split(":")[0].toString())<8 &&int.parse(selectedStartTime!.split(":")[0].toString())<8){
       selectedEndTime = '${(12+int.parse(selectedEndTime!.split(":")[0].toString()))}:${selectedEndTime!.split(":")[1]}';
       selectedStartTime='${(12+int.parse(selectedStartTime!.split(":")[0].toString()))}:${selectedStartTime!.split(":")[1]}';
     }
-    print('$selectedStartTime $selectedEndTime');
     AppointmentModel appointmentModel = AppointmentModel(
       appointmentDate: '${selectedDate!.year}-${selectedDate!.month}-${selectedDate!.day}',
       appointmentEnd: DateTime(
@@ -81,12 +219,13 @@ class AppointmentController extends ChangeNotifier{
 
       ),
       createdAt: DateTime.now(),
-      appointmentTime: selectedStartTime,
+      appointmentStartTime: selectedStartTime,
       patient:userController.patient,
+      appointmentEndTime: selectedEndTime,
       consultant:consultantModel);
     load = true;
     notifyListeners();
-    print('lll');
+
    bool createAppointment =  await AppointmentService.createAppointment(appointmentModel);
    load = false;
    notifyListeners();
@@ -95,11 +234,54 @@ class AppointmentController extends ChangeNotifier{
    }
   }
 
+  saveAppointment2()async{
+    print(userController.patient!.lastName);
 
- // List<String> appointmentTime =[  '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00','20:00','21:00'];
+    // PatientModel? patientModel = PatientModel(firstName: userController.patient!.firstName,lastName: userController.patient!.lastName);
+    //ConsultantModel? _consultantModel= ConsultantModel(firstName: consultantModel!.firstName,lastName: consultantModel!.firstName);
+    // if(int.parse(selectedEndTime!.split(":")[0].toString())<8 &&int.parse(selectedStartTime!.split(":")[0].toString())<8){
+    //   selectedEndTime = '${(12+int.parse(selectedEndTime!.split(":")[0].toString()))}:${selectedEndTime!.split(":")[1]}';
+    //   selectedStartTime='${(12+int.parse(selectedStartTime!.split(":")[0].toString()))}:${selectedStartTime!.split(":")[1]}';
+    // }
+    AppointmentModel appointmentModel = AppointmentModel(
+        appointmentDate: '${selectedDate!.year}-${selectedDate!.month}-${selectedDate!.day}',
+        appointmentEnd:appointmentDateTimeEndTime,
+        appointmentStart: appointmentDateTimeStartTime,
+        createdAt: DateTime.now(),
+        appointmentStartTime:appointmentStartTime,
+        patient:userController.patient,
+        appointmentEndTime: appointmentEndTime,
+        sessionEnded :false,
+        consultant:consultantModel);
+    load = true;
+    notifyListeners();
+
+    bool createAppointment =  await AppointmentService.createAppointment(appointmentModel);
+    load = false;
+    notifyListeners();
+    if(createAppointment){
+      Navigator.pushNamed(navigatorKey!.currentContext!,ConfirmationScreen.id);
+    }
+  }
+
+
+  // List<String> appointmentTime =[  '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00','20:00','21:00'];
 
   init(){
 
+  }
+
+  getAppointmentHistory()async{
+
+   final history =  await AppointmentService.getAppointmentHistory();
+   if(history != null){
+     load = false;
+     appointmentHistory = history;
+     notifyListeners();
+   }else{
+     load = false;
+     notifyListeners();
+   }
   }
 
 

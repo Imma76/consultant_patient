@@ -10,6 +10,7 @@ import 'package:consult_patient/src/views/authentication/sign_up.dart';
 import 'package:consult_patient/src/views/booking/booking_confirmation.dart';
 import 'package:consult_patient/src/views/booking/date_slot.dart';
 import 'package:consult_patient/src/views/booking/time_slots/time_slots.dart';
+import 'package:consult_patient/src/views/home/base.dart';
 import 'package:consult_patient/src/views/home/home_page.dart';
 import 'package:consult_patient/src/views/profile/consultants_profile.dart';
 import 'package:consult_patient/src/views/welcome.dart';
@@ -101,12 +102,12 @@ class _LoadAppState extends ConsumerState<LoadApp> {
     if(centralController.isAppLoading) {
       return Scaffold(
           backgroundColor: AppTheme.lightGreen,
-          body:SpinKitFadingCircle(color: AppTheme.primary,));
+          body:Indicator2());
     }
       if(centralController.isUserPresent){
-          return Homepage();
+          return Base();
         }
-          //Indicator();
+          //c
 
         return WelcomeScreen();
 

@@ -7,6 +7,7 @@ import 'package:consult_patient/src/views/home/home_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
+import '../views/home/base.dart';
 
 class AuthController extends ChangeNotifier{
   bool load = false;
@@ -31,7 +32,7 @@ class AuthController extends ChangeNotifier{
   AuthService authService = AuthService();
   Future signIn(centralState)async{
    centralState.startLoading();
-   print('hhhs${ centralState.isAppLoading}');
+
 
     final user=await authService.signIn(email: emailController.text.trim(),password: passwordController.text);
     if(user==null){
@@ -47,6 +48,12 @@ class AuthController extends ChangeNotifier{
   centralState.stopLoading();
    Navigator.pushNamedAndRemoveUntil(navigatorKey!
        .currentContext!, Homepage.id, (route) => false);
+
+  }
+  clearControllers(){
+    emailController.clear();
+    passwordController.clear();
+    genderController.clear();
 
   }
 
@@ -125,7 +132,7 @@ class AuthController extends ChangeNotifier{
     centralState.stopLoading();
     notifyListeners();
     Navigator.pushNamedAndRemoveUntil(navigatorKey!
-        .currentContext!, Homepage.id, (route) => false);
+        .currentContext!, Base.id, (route) => false);
   }
 
 }

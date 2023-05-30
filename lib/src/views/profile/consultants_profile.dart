@@ -235,8 +235,9 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                 ),
                 Gap(58.h),
                 ElevatedButton(onPressed: () {
-                  appointmentController.selectedConsultant(consultant);
+                   appointmentController.selectedConsultant(consultant);
                   Navigator.pushNamed(context,DateSlot.id);
+                //  appointmentController.generateTimeSlots2();
                 },
                   child: Text('Book an appointment', style: GoogleFonts.poppins(
                       color: AppTheme.white,
@@ -306,10 +307,8 @@ tapOnlyMode: true,
 
                     );
                   });
-
-
                 },
-                  child:consultantController.load?Indicator(color: AppTheme.white,): Text('Rate Dr. Henry Onah', style: GoogleFonts.poppins(
+                  child:consultantController.load?Indicator2(color: AppTheme.white,): Text('Rate Dr. Henry Onah', style: GoogleFonts.poppins(
                       color: AppTheme.white,
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w700),),

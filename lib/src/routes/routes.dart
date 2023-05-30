@@ -9,6 +9,7 @@ import 'package:consult_patient/src/views/welcome.dart';
 import 'package:flutter/material.dart';
 
 import '../views/booking/time_slots/time_slots.dart';
+import '../views/home/base.dart';
 
 Map<String,WidgetBuilder>routes={
   WelcomeScreen.id:(context)=> WelcomeScreen(),
@@ -18,5 +19,6 @@ Map<String,WidgetBuilder>routes={
   ConsultantProfile.id:(context)=>ConsultantProfile(),
   SelectTimeSlot.id:(context)=>SelectTimeSlot(),
   ConfirmationScreen.id:(context)=>ConfirmationScreen(),
-  DateSlot.id:(context)=>DateSlot()
+  DateSlot.id:(context)=>DateSlot(),
+  Base.id:(context)=>Base(),
 };

@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../all_providers/all_providers.dart';
 import '../../themes/app_theme.dart';
+import '../home/base.dart';
 
 class ConfirmationScreen extends ConsumerStatefulWidget {
   static const id = 'confirmation';
@@ -28,7 +29,7 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
     // TODO: implement initState
 
 Future.delayed(Duration(seconds: 3),(){
-  Navigator.pushNamedAndRemoveUntil(context, Homepage.id, (route) => false);
+  Navigator.pushNamedAndRemoveUntil(context, Base.id, (route) => false);
 });
   }
   @override

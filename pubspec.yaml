@@ -48,10 +48,13 @@ dependencies:
   flutter_rating_bar:
   device_preview:
   flutter_screenutil:
+  bubble:
   flutter_spinkit:
+  intl:
   flutter_riverpod:
   flutter_launcher_icons:
   table_calendar:
+  flutter_svg:
 
 
 

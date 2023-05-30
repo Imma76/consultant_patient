@@ -1,5 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:consult_patient/src/collections/collection.dart';
+import 'package:intl/intl.dart';
 
 import '../controllers/user_controller.dart';
 
@@ -18,7 +20,7 @@ class FirebaseMessageService{
   }
   static  addConversationMessages(var chatRoomId, var message)async{
     await FirebaseFirestore.instance.collection('chatroom').doc(chatRoomId).collection('chats').add({'message':message,
-      'sendBy':'${userController.patient!.firstName}','time':DateTime.now().millisecondsSinceEpoch}).catchError((error)=>print(error)) ;
+      'sendBy':'${userController.patient!.firstName}','time':DateTime.now()}).catchError((error)=>print(error)) ;
   }
   static  getConversationMessages(var chatRoomId,){
     return   FirebaseFirestore.instance.collection('chatroom').doc(chatRoomId).collection('chats').orderBy('time', descending:false ).snapshots().handleError((e)=>print(e)) ;
@@ -26,5 +28,9 @@ class FirebaseMessageService{
   static Stream<QuerySnapshot> getChatRooms(String username){
     return  FirebaseFirestore.instance.collection('chatroom').where("users",arrayContains: username).snapshots().handleError((e)=>print(e));
 
+  }
+
+  static Stream<DocumentSnapshot> getAppointment(String docId){
+    return Collections.appointment.doc(docId).snapshots();
   }
 }

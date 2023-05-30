@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ConsultantModel{
 
   String? userName;
@@ -40,8 +42,10 @@ class ConsultantModel{
     history=data['history'];
     userId=data['userId'];
     lga=data['lga'];
-    createdAt=data['createdAt'].toDate();
+    if(data['createdAt']!=null)
+    createdAt=Timestamp(data['createdAt'].seconds,data['createdAt'].nanoseconds).toDate();
     phoneNumber=data['phoneNumber'];
+    if(data['ratings']!= null)
     ratings=double.parse(data['ratings'].toString());
     stateOfOrigin=data['stateOfOrigin'];
     areaOfSpecialty=data['areaOfSpecialty'];

@@ -41,6 +41,24 @@ class ConsultantService{
       return null;
     }
   }
+ static  Stream<List<ConsultantModel>>? getConsultant( {String? orderBy = 'createdAt',
+    bool? descending = true,
+    var startAt,}){
+    try{
+      Query query =  Collections.consultant.orderBy("createdAt",descending: true);
+
+      return query.snapshots()
+          .map((snapShot) => snapShot.docs.map<ConsultantModel>((consultant) {
+            print(consultant);
+        Map _temp = consultant.data() as Map<dynamic, dynamic>;
+        _temp['docId'] = consultant.id;
+        // //(_temp);
+        return ConsultantModel.fromJson(_temp as Map<String, dynamic>);
+      }).toList());
+    }catch(e){
+      return null;
+    }
+  }
 
   static Future createConsultant(ConsultantModel consultant)async{
     try{

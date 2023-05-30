@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PatientModel{
 
   String? userName;
@@ -22,7 +24,8 @@ class PatientModel{
     age=data['age'];
     weight=data['weight'];
     height=data['height'];
-    createdAt=data['createdAt'].toDate();
+    if(data['createdAt']!=null)
+    createdAt=Timestamp(data['createdAt'].seconds,data['createdAt'].nanoseconds).toDate();
     gender=data['gender'];
     allergies=data['allergies'];
     medicalConditions=data['medicalConditions'];

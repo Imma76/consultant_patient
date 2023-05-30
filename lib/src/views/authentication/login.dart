@@ -4,6 +4,7 @@ import 'package:consult_patient/src/views/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -99,15 +100,17 @@ mainAxisSize: MainAxisSize.min,
                   ),
                 ),
                 Gap(104.h),
-                ElevatedButton(onPressed: ()async{
+
+
+                centralController.isAppLoading?SpinKitDoubleBounce(color: AppTheme.primary,)
+                :ElevatedButton(onPressed: ()async{
 
                   if(authController.checkInputForSignIn()){
 
 
                     await authController.signIn(centralController);
                   }
-                }, child:centralController.isAppLoading?Indicator(color:
-                  AppTheme.white2,):Text('Sign in',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary2,minimumSize: Size(382.w,58.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), ),
+                }, child:Text('Sign in',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary2,minimumSize: Size(382.w,58.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), ),
             Gap(24.h),
                 GestureDetector(
               onTap: () {

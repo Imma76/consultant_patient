@@ -1,3 +1,4 @@
+
 import 'package:consult_patient/src/all_providers/all_providers.dart';
 import 'package:consult_patient/src/utils/widgets/app_bar.dart';
 import 'package:consult_patient/src/utils/widgets/loader.dart';
@@ -23,6 +24,12 @@ class SelectTimeSlot extends ConsumerStatefulWidget {
 }
 
 class _SelectTimeSlotState extends ConsumerState<SelectTimeSlot> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ref.read(appointmentProvider).generateTimeSlots2();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,59 +38,73 @@ class _SelectTimeSlotState extends ConsumerState<SelectTimeSlot> {
       backgroundColor: AppTheme.backgroundColor,
       appBar: PrimaryAppBar(context),
 
-      body: appointmentController.load?Indicator(color: AppTheme.primary,): Column(
-        children: [
-          Row(
+      body: appointmentController.load?Indicator2(color: AppTheme.primary,): SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
 
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                child: Image.asset(
-                    'assets/app_logo.png', width: 87.w, height: 77.h),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    top:8.0),
-                child: Text('Pick a slot', style: GoogleFonts.poppins(
-                    color: AppTheme.lightBlack,
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w500),),
-              ),
-            ],
-          ),
-          Gap(130.h),
-          GestureDetector(
-              onTap: (){
-                appointmentController.selectedTimeSlot(startTime: appointmentController.startTime1,endTime: '${appointmentController.endTime1}' );
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: Image.asset(
+                      'assets/app_logo.png', width: 87.w, height: 77.h),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top:8.0),
+                  child: Text('Pick a slot', style: GoogleFonts.poppins(
+                      color: AppTheme.lightBlack,
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w500),),
+                ),
+              ],
+            ),
+            Gap(30.h),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: appointmentController!.timeSlots.length,
+              itemBuilder: (context, index) {
+                return  GestureDetector(
+                    onTap: (){
+                      appointmentController.selectedTimeSlot2(appointmentController!.timeSlots[index]);
+                      //appointmentController.selectedTimeSlot(startTime: appointmentController.startTime1,endTime: '${appointmentController.endTime1}' );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TimeSlots(startTime: appointmentController!.timeSlots[index],),
+                    ));
+
               },
-              child: TimeSlots(startTime: appointmentController.startTime1,endTime: '${appointmentController.endTime1} AM',)),
-          Gap(24.h),
-          GestureDetector(
-              onTap: (){
-                appointmentController.selectedTimeSlot(startTime: appointmentController.startTime2,endTime: '${appointmentController.endTime2}' );
-              },
-              child: TimeSlots(startTime: appointmentController.startTime2,endTime: '${appointmentController.endTime2} AM')),
-          Gap(24.h),
-          GestureDetector(
-              onTap: (){
-                appointmentController.selectedTimeSlot(startTime: appointmentController.startTime3,endTime: '${appointmentController.endTime3}' );
-              },
-              child: TimeSlots(startTime: appointmentController.startTime3,endTime:'${appointmentController.endTime3} PM')),
-          Gap(24.h),
-          GestureDetector(
-              onTap: (){
-                appointmentController.selectedTimeSlot(startTime: appointmentController.startTime4,endTime: '${appointmentController.endTime4}' );
-              },
-              child: TimeSlots(startTime: appointmentController.startTime4,endTime: '${appointmentController.endTime4} PM')),
-          Gap(24.h),
-          GestureDetector(
-              onTap: (){
-                appointmentController.selectedTimeSlot(startTime: appointmentController.startTime5,endTime: '${appointmentController.endTime5}' );
-              },
-              child: TimeSlots(startTime: appointmentController.startTime5,endTime: '${appointmentController.endTime5} PM'))
+            ),
+            Gap(24.h),
+            // GestureDetector(
+            //     onTap: (){
+            //       appointmentController.selectedTimeSlot(startTime: appointmentController.startTime2,endTime: '${appointmentController.endTime2}' );
+            //     },
+            //     child: TimeSlots(startTime: appointmentController.startTime2,endTime: '${appointmentController.endTime2} AM')),
+            // Gap(24.h),
+            // GestureDetector(
+            //     onTap: (){
+            //       appointmentController.selectedTimeSlot(startTime: appointmentController.startTime3,endTime: '${appointmentController.endTime3}' );
+            //     },
+            //     child: TimeSlots(startTime: appointmentController.startTime3,endTime:'${appointmentController.endTime3} PM')),
+            // Gap(24.h),
+            // GestureDetector(
+            //     onTap: (){
+            //       appointmentController.selectedTimeSlot(startTime: appointmentController.startTime4,endTime: '${appointmentController.endTime4}' );
+            //     },
+            //     child: TimeSlots(startTime: appointmentController.startTime4,endTime: '${appointmentController.endTime4} PM')),
+            // Gap(24.h),
+            // GestureDetector(
+            //     onTap: (){
+            //       appointmentController.selectedTimeSlot(startTime: appointmentController.startTime5,endTime: '${appointmentController.endTime5}' );
+            //     },
+            //     child: TimeSlots(startTime: appointmentController.startTime5,endTime: '${appointmentController.endTime5} PM'))
 
 
-        ],
+          ],
+        ),
       ),
 
     );
@@ -105,8 +126,8 @@ class TimeSlots extends ConsumerWidget {
       child: Row(
         children: [
           Gap(63.w),
-          Text('$startTime - $endTime ',style: GoogleFonts.poppins(
-          color: AppTheme.primary3,
+          Text('$startTime',style: GoogleFonts.poppins(
+              color: AppTheme.primary3,
               fontSize: 20.sp,
               fontWeight: FontWeight.w500),),
           Spacer(),
@@ -118,16 +139,17 @@ class TimeSlots extends ConsumerWidget {
                 color: AppTheme.white,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),)),decoration: BoxDecoration(
-            color:
+              color:
               AppTheme.primary,
               borderRadius: BorderRadius.only(bottomLeft: Radius
-            .circular(20),bottomRight:  Radius
+                  .circular(20),bottomRight:  Radius
                   .circular(20),topRight:  Radius
                   .circular(20),)),)
         ],
       ),
       decoration: BoxDecoration(borderRadius: BorderRadius
-      .circular(20),border:Border.all(color: AppTheme.primary) ),
+          .circular(20),border:Border.all(color: AppTheme.primary) ),
     );
   }
 }
+
