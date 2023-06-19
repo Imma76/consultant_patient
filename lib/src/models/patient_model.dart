@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PatientModel{
 
-  String? userName;
+  String? surName;
   String? email;
   String? firstName;
   String? lastName;
@@ -14,10 +14,10 @@ class PatientModel{
   DateTime? createdAt;
   String? userId;
   String? medicalConditions;
-  PatientModel({this.email,this.userName,this.lastName,this.userId,this.firstName,this.medicalConditions,this.allergies,this.height,this.createdAt,this.age,this.gender,this.weight});
+  PatientModel({this.email,this.surName,this.lastName,this.userId,this.firstName,this.medicalConditions,this.allergies,this.height,this.createdAt,this.age,this.gender,this.weight});
 
   PatientModel.fromJson(Map<dynamic,dynamic> data){
-    userName=data['userName'];
+    surName=data['surName'];
     email=data['email'];
     firstName=data['firstName'];
     lastName=data['lastName'];
@@ -34,7 +34,7 @@ class PatientModel{
 
    toJson(){
     Map<String,dynamic> data=<String, dynamic>{};
-    data['userName']=userName;
+    data['surName']=surName;
     data['email']=email;
     data['firstName']=firstName;
     data['lastName']=lastName;

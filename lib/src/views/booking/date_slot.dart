@@ -123,8 +123,9 @@ daysOfWeekHeight:
                     padding: const EdgeInsets.only(top:8.0),
                     child: GestureDetector(
                       onTap: (){
-                        appointmentController.changeSelectedDate(date);
-                        Navigator.pushNamed(context, SelectTimeSlot.id);},
+
+                        appointmentController.changeSelectedDate(date);Navigator.pushNamed(context, SelectTimeSlot.id);
+                        },
                       child: Container(
                           alignment: Alignment.center,
                           margin: EdgeInsets.only(left:5,right:5),
@@ -201,10 +202,11 @@ daysOfWeekHeight:
               return GestureDetector(
                 onTap: (){
                   if(date.month > DateTime.now().month){
-    Navigator.pushNamed(context, SelectTimeSlot.id);
 
+                    appointmentController.changeSelectedDate(date);
+                    Navigator.pushNamed(context, SelectTimeSlot.id);
                   }
-    },
+                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top:8.0),
                   child: Container(

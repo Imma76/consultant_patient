@@ -30,6 +30,10 @@ class AuthController extends ChangeNotifier{
   PatientModel? patient;
 
   AuthService authService = AuthService();
+
+  void logOut()async{
+
+  }
   Future signIn(centralState)async{
    centralState.startLoading();
 
@@ -47,7 +51,7 @@ class AuthController extends ChangeNotifier{
    // }
   centralState.stopLoading();
    Navigator.pushNamedAndRemoveUntil(navigatorKey!
-       .currentContext!, Homepage.id, (route) => false);
+       .currentContext!, Base.id, (route) => false);
 
   }
   clearControllers(){
@@ -113,7 +117,7 @@ class AuthController extends ChangeNotifier{
     }
      patient =PatientModel(
       email: emailController.text.trim(),
-      userName: userNameController.text.trim(),
+      surName: surNameController.text.trim(),
       allergies: allergiesController.text.trim(),
       firstName: firstNameController.text.trim(),
       lastName: lastNameController.text.trim(),
@@ -132,6 +136,7 @@ class AuthController extends ChangeNotifier{
     }
     await userController.init();
     centralState.stopLoading();
+    await PatientService.sendEmail('Welcome to consult, Your account has been created successfully');
     notifyListeners();
     Navigator.pushNamedAndRemoveUntil(navigatorKey!
         .currentContext!, Base.id, (route) => false);

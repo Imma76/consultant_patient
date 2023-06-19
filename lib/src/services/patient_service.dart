@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:consult_patient/src/controllers/user_controller.dart';
 import 'package:consult_patient/src/utils/widgets/reusable_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:http/http.dart' as http;
 import '../collections/collection.dart';
 import '../models/patient_model.dart';
 import '../utils/error_codes.dart';
@@ -53,4 +54,18 @@ class PatientService{
      return null;
    }
  }
+ static Future sendEmail(String message,{String? email})async{
+   try{
+     final response= await http.post(Uri.parse('https://email-service-fsmn.onrender.com/mail'),body: {
+       "name":"Consult",
+       "receiver":email??userController.patient!.email,
+       "message":"${message}",
+       "sender":"Consultant@gmail.com"
+     });
+     print(response.body);
+   }catch(e){
+     print(e.toString());
+   }
+ }
+
 }

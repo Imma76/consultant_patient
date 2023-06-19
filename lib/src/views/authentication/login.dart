@@ -70,6 +70,7 @@ mainAxisSize: MainAxisSize.min,
                   child: Padding(
                     padding: const EdgeInsets.all(3.0),
                     child: TextFormField(
+                      cursorColor: AppTheme.primary,
                       controller: authController.emailController,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
@@ -89,9 +90,12 @@ mainAxisSize: MainAxisSize.min,
                   child: Padding(
                     padding: const EdgeInsets.all(3.0),
                     child: TextFormField(
+                      cursorColor: AppTheme.primary,
                       controller: authController.passwordController,
                       decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
+                          enabledBorder: OutlineInputBorder(
+
+                              borderSide: BorderSide(color: AppTheme.white2)),
 
                           focusedBorder:
                           OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2))

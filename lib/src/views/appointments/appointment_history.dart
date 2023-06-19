@@ -67,14 +67,14 @@ class AppointmentHistory extends ConsumerWidget {
 
             Gap(18.h),
             Text('History',style:GoogleFonts.poppins(color: AppTheme.black2,fontSize: 20.sp,fontWeight: FontWeight.w500)),
-            Gap(24.h),
+          //  Gap(15.h),
             ListView.builder(
               itemCount: appointmentController.appointmentHistory.length,
               shrinkWrap: true,
               itemBuilder: (context,index) {
 
                 return Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(right: 4,left: 4,bottom: 16),
                   child: AppointmentHistoryBlock(
                     consultantName:'${appointmentController.appointmentHistory
                   [index].consultant!.firstName} ${appointmentController.appointmentHistory
@@ -106,7 +106,7 @@ class AppointmentHistoryBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 18,top:
-      8),
+      5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
 

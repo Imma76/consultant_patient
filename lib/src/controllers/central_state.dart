@@ -2,7 +2,8 @@ import 'package:consult_patient/src/controllers/user_controller.dart';
 import 'package:consult_patient/src/views/authentication/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+//import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../main.dart';
 
@@ -34,15 +35,15 @@ class CentralState extends ChangeNotifier{
 
 
   void setFirstTime()async{
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool("isFirstTime", false);
+    // final prefs = await SharedPreferences.getInstance();
+    // await prefs.setBool("isFirstTime", false);
   }
 
   getIsUserFirstTime()async{
-    final prefs = await SharedPreferences.getInstance();
-
-    isFirstTime = prefs.getBool("isFirstTime")?? true;
-    notifyListeners();
+    // final prefs = await SharedPreferences.getInstance();
+    //
+    // isFirstTime = prefs.getBool("isFirstTime")?? true;
+    // notifyListeners();
   }
 
 

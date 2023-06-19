@@ -14,8 +14,9 @@ class AppointmentModel{
   String? appointmentEndTime;
   String? appointmentId;
   bool? sessionEnded;
+  bool? isVerified;
   AppointmentModel({this.patient,this.consultant,this.createdAt,this.appointmentDate
-  ,this.appointmentEnd,this.appointmentStart,this.appointmentStartTime,this.sessionEnded,this.updates,this.appointmentEndTime});
+  ,this.appointmentEnd,this.appointmentStart,this.appointmentStartTime,this.sessionEnded,this.updates,this.appointmentEndTime,this.isVerified});
 
   AppointmentModel.fromJson(Map data){
 
@@ -24,6 +25,7 @@ class AppointmentModel{
     appointmentDate=data['appointmentDate'];
     patient=PatientModel.fromJson(data['patient']);
     consultant=ConsultantModel.fromJson(data['consultant']);
+    isVerified =data['isVerified'];
     if(updates!=null)
       data['updates'].map((e){
         updates!.add(Timestamp(e.seconds,e.nanoseconds).toDate());
@@ -51,6 +53,7 @@ class AppointmentModel{
     data['appointmentId']=appointmentId;
     data['appointmentStartTime'] = appointmentStartTime;
     data['appointmentEndTime'] = appointmentEndTime;
+    data['isVerified'] = isVerified;
     return data;
   }
 }

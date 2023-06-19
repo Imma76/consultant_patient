@@ -14,7 +14,7 @@ import 'package:consult_patient/src/views/home/base.dart';
 import 'package:consult_patient/src/views/home/home_page.dart';
 import 'package:consult_patient/src/views/profile/consultants_profile.dart';
 import 'package:consult_patient/src/views/welcome.dart';
-import 'package:device_preview/device_preview.dart';
+//import 'package:device_preview/device_preview.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';

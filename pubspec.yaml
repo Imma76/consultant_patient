@@ -46,7 +46,7 @@ dependencies:
   cached_network_image:
   google_fonts:
   flutter_rating_bar:
-  device_preview:
+
   flutter_screenutil:
   bubble:
   flutter_spinkit:
@@ -55,6 +55,8 @@ dependencies:
   flutter_launcher_icons:
   table_calendar:
   flutter_svg:
+  http: ^0.13.6
+
 
 
 

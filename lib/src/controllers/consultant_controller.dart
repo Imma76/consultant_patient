@@ -32,7 +32,6 @@ class ConsultantController extends ChangeNotifier{
     notifyListeners();
     String calRatings = (currentRatings! + (ratings!/3)).toStringAsFixed(1);
     double newRatings = double.parse(calRatings);
-
     final update = await ConsultantService
     .updateConsultantRatings(newRatings, consultantId);
     load =false;

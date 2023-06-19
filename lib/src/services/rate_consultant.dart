@@ -45,7 +45,7 @@ class ConsultantService{
     bool? descending = true,
     var startAt,}){
     try{
-      Query query =  Collections.consultant.orderBy("createdAt",descending: true);
+      Query query =  Collections.consultant.orderBy("createdAt",descending: true).where("isVerified",isEqualTo:true);
 
       return query.snapshots()
           .map((snapShot) => snapShot.docs.map<ConsultantModel>((consultant) {

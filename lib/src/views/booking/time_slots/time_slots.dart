@@ -128,7 +128,7 @@ class TimeSlots extends ConsumerWidget {
           Gap(63.w),
           Text('$startTime',style: GoogleFonts.poppins(
               color: AppTheme.primary3,
-              fontSize: 20.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w500),),
           Spacer(),
           Container(

@@ -274,7 +274,7 @@ tapOnlyMode: true,
                             itemSize: 24,
                             glowColor:
                             AppTheme.primary,
-                            initialRating: 2,
+                            initialRating: 0,
                             unratedColor: AppTheme.lightBlack,
                             direction: Axis.horizontal,
                            // allowHalfRating: true,

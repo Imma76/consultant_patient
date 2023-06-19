@@ -12,6 +12,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../services/patient_service.dart';
+
 class AppointmentController extends ChangeNotifier{
   bool load = false;
 
@@ -230,6 +232,9 @@ class AppointmentController extends ChangeNotifier{
    load = false;
    notifyListeners();
    if(createAppointment){
+     await PatientService.sendEmail('You have booked an appointment with Dr. ${appointmentModel.consultant!.firstName} ${appointmentModel.consultant!.lastName} for  ${ DateFormat('MMM d, H:mm a y').format(appointmentModel.appointmentStart!)} ');
+     await PatientService.sendEmail('${appointmentModel.patient!.firstName} ${appointmentModel.patient!.lastName} has booked an appointment with you for ${ DateFormat('MMM d, H:mm a y').format(appointmentModel.appointmentStart!)} ',email: appointmentModel.consultant!.email);
+
      Navigator.pushNamed(navigatorKey!.currentContext!,ConfirmationScreen.id);
    }
   }
@@ -260,6 +265,9 @@ class AppointmentController extends ChangeNotifier{
     load = false;
     notifyListeners();
     if(createAppointment){
+      await PatientService.sendEmail('You have booked an appointment with Dr. ${appointmentModel.consultant!.firstName} ${appointmentModel.consultant!.lastName} for  ${ DateFormat('MMM d, H:mm a y').format(appointmentModel.appointmentStart!)} ');
+      await PatientService.sendEmail('${appointmentModel.patient!.firstName} ${appointmentModel.patient!.lastName} has booked an appointment with you for ${ DateFormat('MMM d, H:mm a y').format(appointmentModel.appointmentStart!)} ',email: appointmentModel.consultant!.email);
+
       Navigator.pushNamed(navigatorKey!.currentContext!,ConfirmationScreen.id);
     }
   }

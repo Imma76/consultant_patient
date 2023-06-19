@@ -61,7 +61,7 @@ Future.delayed(Duration(seconds: 3),(){
 Gap(16.5),
                       Padding(
                         padding: const EdgeInsets.only(left: 30.0,right:21,bottom: 30),
-                        child: Center(child: Text('You have secured the ${appointmentController.selectedStartTime}-${appointmentController.selectedEndTime} slot with  Dr. henry onah. A reminder will be sent to your email shortly before your consultation',textAlign:TextAlign.center,style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 19.sp,fontWeight: FontWeight.w500))),
+                        child: Center(child: Text('You have secured the ${appointmentController.appointmentStartTime}-${appointmentController.appointmentEndTime} slot with  Dr. henry onah. A reminder will be sent to your email shortly before your consultation',textAlign:TextAlign.center,style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 19.sp,fontWeight: FontWeight.w500))),
                       ),
 
                     ],
