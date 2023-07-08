@@ -10,9 +10,13 @@ import 'package:consult_patient/src/services/appointment_service.dart';
 import 'package:consult_patient/src/views/booking/booking_confirmation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../services/patient_service.dart';
+import '../themes/app_theme.dart';
 
 class AppointmentController extends ChangeNotifier{
   bool load = false;
@@ -242,6 +246,113 @@ class AppointmentController extends ChangeNotifier{
   saveAppointment2()async{
     print(userController.patient!.lastName);
 
+    for(var appHistory in appointmentHistory){
+
+      bool isSameDayMonthYear(DateTime date1, DateTime date2) {
+        bool isSameDay = date1.day == date2.day;
+        bool isSameMonth = date1.month == date2.month;
+        bool isSameYear = date1.year == date2.year;
+
+        return isSameDay && isSameMonth && isSameYear;
+      }
+      if(appHistory.appointmentStart == appointmentDateTimeStartTime &&isSameDayMonthYear(appHistory.appointmentStart!, appointmentDateTimeStartTime!)){
+        showDialog(context: navigatorKey!
+            .currentContext!, builder: (context) {
+          return Dialog(
+            backgroundColor:
+            AppTheme.white
+            ,
+            child: Container(
+              decoration: BoxDecoration(color:
+              AppTheme.white, borderRadius: BorderRadius.circular(10.r)),
+              height:
+              150.h,
+              width: 382.w,
+
+              child: Column(
+                children: [
+                  Gap(22.h),
+                  Center(
+                    child: Text('Consultant has been booked at this time, choose another time',textAlign: TextAlign.center,
+                      style: GoogleFonts.dmSans(
+                          color: AppTheme.lightBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),),
+                  ),
+                  Gap(24.h),
+
+                  ElevatedButton(onPressed: () async {
+
+                    Navigator.pop(navigatorKey!
+                        .currentContext!,);
+                  },
+                    child: Text('Okay', style: GoogleFonts.poppins(
+                        color: AppTheme.white,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w700),),
+                    style: ElevatedButton.styleFrom(primary: AppTheme.primary,
+                        minimumSize: Size(108.w, 48.h),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),),
+                ],
+              ),
+            ),
+
+          );
+        });
+        return;
+      }
+    }
+
+    if(appointmentDateTimeStartTime!.isBefore(DateTime.now())){
+      showDialog(context: navigatorKey!
+          .currentContext!, builder: (context) {
+        return Dialog(
+          backgroundColor:
+          AppTheme.white
+          ,
+          child: Container(
+            decoration: BoxDecoration(color:
+            AppTheme.white, borderRadius: BorderRadius.circular(10.r)),
+            height:
+            150.h,
+            width: 382.w,
+
+            child: Column(
+              children: [
+                Gap(22.h),
+                Center(
+                  child: Text('Selected time has passed, choose another slot',textAlign: TextAlign.center,
+                    style: GoogleFonts.dmSans(
+                        color: AppTheme.lightBlack,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500),),
+                ),
+                Gap(24.h),
+
+                ElevatedButton(onPressed: () async {
+
+                  Navigator.pop(navigatorKey!
+                      .currentContext!,);
+                },
+                  child: Text('Okay', style: GoogleFonts.poppins(
+                      color: AppTheme.white,
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w700),),
+                  style: ElevatedButton.styleFrom(primary: AppTheme.primary,
+                      minimumSize: Size(108.w, 48.h),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),),
+              ],
+            ),
+          ),
+
+        );
+      });
+
+      return;
+    }
+
     // PatientModel? patientModel = PatientModel(firstName: userController.patient!.firstName,lastName: userController.patient!.lastName);
     //ConsultantModel? _consultantModel= ConsultantModel(firstName: consultantModel!.firstName,lastName: consultantModel!.firstName);
     // if(int.parse(selectedEndTime!.split(":")[0].toString())<8 &&int.parse(selectedStartTime!.split(":")[0].toString())<8){
@@ -262,12 +373,12 @@ class AppointmentController extends ChangeNotifier{
     notifyListeners();
 
     bool createAppointment =  await AppointmentService.createAppointment(appointmentModel);
-    load = false;
-    notifyListeners();
+
     if(createAppointment){
       await PatientService.sendEmail('You have booked an appointment with Dr. ${appointmentModel.consultant!.firstName} ${appointmentModel.consultant!.lastName} for  ${ DateFormat('MMM d, H:mm a y').format(appointmentModel.appointmentStart!)} ');
       await PatientService.sendEmail('${appointmentModel.patient!.firstName} ${appointmentModel.patient!.lastName} has booked an appointment with you for ${ DateFormat('MMM d, H:mm a y').format(appointmentModel.appointmentStart!)} ',email: appointmentModel.consultant!.email);
-
+      load = false;
+      notifyListeners();
       Navigator.pushNamed(navigatorKey!.currentContext!,ConfirmationScreen.id);
     }
   }

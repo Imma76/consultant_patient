@@ -1,4 +1,5 @@
 import 'package:consult_patient/src/utils/widgets/loader.dart';
+import 'package:consult_patient/src/views/authentication/forgot_password.dart';
 import 'package:consult_patient/src/views/authentication/sign_up.dart';
 import 'package:consult_patient/src/views/home/home_page.dart';
 import 'package:flutter/material.dart';
@@ -102,6 +103,14 @@ mainAxisSize: MainAxisSize.min,
                       ),
                     ),
                   ),
+                ),
+                Gap(5),
+                GestureDetector(
+                  onTap:(){
+                    Navigator.pushNamed(context, ForgotPassword.id);
+                  },
+                  child: Text('Forgot password?',style: GoogleFonts.poppins(color: AppTheme.lightBlack
+                      ,fontSize: 16.sp,fontWeight: FontWeight.w400),),
                 ),
                 Gap(104.h),
 

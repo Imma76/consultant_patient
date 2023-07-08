@@ -20,7 +20,22 @@ class AuthService{
       return false;
     }on FirebaseAuthException catch(e){
       showToast(ErrorCodes.getFirebaseErrorMessage(e));
+return false;
+    } catch(e){
+      print(e.toString());
+      return false;
+    }
+  }
+  Future resetPassword({String? email,})async{
+    try{
 
+     await FirebaseAuth.instance.sendPasswordResetEmail(email: email!);
+      return true;
+    }on SocketException{
+      return false;
+    }on FirebaseAuthException catch(e){
+      showToast(ErrorCodes.getFirebaseErrorMessage(e));
+      return false;
     } catch(e){
       print(e.toString());
       return false;

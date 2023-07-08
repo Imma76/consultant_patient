@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:consult_patient/src/all_providers/all_providers.dart';
@@ -43,6 +45,32 @@ class _HomepageState extends ConsumerState<Homepage> {
      ref.read(appointmentProvider).getAppointmentHistory();
      ref.read(consultantProvider).getAllConsultant();
   }
+List<String> healthTips = [
+  "Exercise regularly and be physically active",
+  "Take multivitamin supplements",
+  "Go easy on alcohol and stay sober",
+  "Eat a well balanced, low-fat diet with lots of fruits, vegetables and grains",
+  "Cut down on saturated fat and sugar",
+  "Eat less salt: no more than 6g a day for adults",
+  "Eat more fish, including a portion of oily fish",
+  "Base your meals on higher fibre starchy carbohydrates",
+  "Wash or sanitize your hands regularly",
+  "Do not eat immediately after a workout, wait for 20-25 minutes before eating after a workout",
+  "Have atleast 20-25 grams of raw onion daily",
+  "Laugh and smile",
+  "Monitor your caffeine intake",
+  "Do not eat heavy meals before bed",
+  "Spend more time in the sun for more vitamin D",
+  "Always use healthier oils when making meals",
+  "Eat Whole Foods instead of processed foods",
+  "Reject food or drinks made of artificial colors",
+  "Try to eat a piece of fruit everyday"
+];
+String getRandomTip(List<String> tips) {
+  Random random = Random();
+  int index = random.nextInt(tips.length);
+  return tips[index];
+}
   @override
   Widget build(BuildContext context) {
     final authController = ref.watch(authProvider);
@@ -84,10 +112,12 @@ class _HomepageState extends ConsumerState<Homepage> {
                   }
                   AppointmentModel? appointment;
                   List<AppointmentModel> appointmentList = snapshot.data!.docs.map((e){
-
-                   return  AppointmentModel.fromJson(e.data()as Map);
+                    final snapshotData = e.data()as Map;
+                    snapshotData['appointmentId']=e.id;
+                   return  AppointmentModel.fromJson(snapshotData);
                   }).toList();
                   for(AppointmentModel appointments in appointmentList){
+
                     if(
                     appointments
                     .appointmentStart!.day==DateTime.now().day&& DateTime.now().hour>=appointments!.appointmentStart!.hour &&DateTime.now().isBefore(appointments!.appointmentEnd!)&&appointments.sessionEnded == false){
@@ -203,20 +233,7 @@ class _HomepageState extends ConsumerState<Homepage> {
           Padding(
             padding: const EdgeInsets.only(left:24.0,right:24),
             child:
-            // StreamBuilder<QuerySnapshot>(
-            //   stream: consultantController.getConsultants(),
-            //   builder: (context, snapshot) {
-            //    if(snapshot.connectionState == ConnectionState.waiting){
-            //
-            //      print('waiting');
-            //      return Indicator2();
-            //
-            //    }
-            //    if(snapshot.hasError ){
-            //      return Text('Unable to load consultants');
-            //    }
-            //  //  Consultant consultant = Consultant.fromJson(snapshot.data! as Map);
-            //     return
+
              SizedBox(
                   height: 100.h,
                   child: ListView.builder(
@@ -262,7 +279,7 @@ class _HomepageState extends ConsumerState<Homepage> {
                         onChanged: consultantController.onSearchForConsultants,
                         cursorColor: AppTheme.black2,
                         decoration: InputDecoration
-                          (hintText: 'Search for a consultant by name or specialty',
+                          (hintText: 'Search for a consultant by name',
                             hintStyle:
                             GoogleFonts.poppins(color: AppTheme.black2.withOpacity(0.8),fontSize: 12.sp,fontWeight: FontWeight.w400) ,
 
@@ -318,7 +335,7 @@ class _HomepageState extends ConsumerState<Homepage> {
                     child: Container(width: 295.w,height:259.h,
                       child: Center(child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(index==1?'Tips for Effective Online Health':'15 tips to make your doctor\'s consultation better',textAlign:TextAlign.center,style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w500) ,),
+                        child: Text(index==1?getRandomTip(healthTips):'Tips for Effective Online Health',textAlign:TextAlign.center,style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w500) ,),
                       )),
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),gradient: LinearGradient(
                         begin: Alignment.topLeft,
@@ -399,7 +416,7 @@ class ConsultantAvatar extends StatelessWidget {
               Text('Dr.${consultant!
               .firstName} ${consultant!.lastName}',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.bold)),
               Gap(5),
-              CircleAvatar(radius: 2,backgroundColor: AppTheme.primary,),
+              CircleAvatar(radius: 2,backgroundColor: AppTheme.primary,),  Gap(5),
 
             ],
           )

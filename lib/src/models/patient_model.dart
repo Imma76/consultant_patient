@@ -13,13 +13,15 @@ class PatientModel{
   String? allergies;
   DateTime? createdAt;
   String? userId;
+  String?verificationStatus;
   String? medicalConditions;
-  PatientModel({this.email,this.surName,this.lastName,this.userId,this.firstName,this.medicalConditions,this.allergies,this.height,this.createdAt,this.age,this.gender,this.weight});
+  PatientModel({this.email,this.surName,this.verificationStatus,this.lastName,this.userId,this.firstName,this.medicalConditions,this.allergies,this.height,this.createdAt,this.age,this.gender,this.weight});
 
   PatientModel.fromJson(Map<dynamic,dynamic> data){
-    surName=data['surName'];
+    surName=data['lastName'];
     email=data['email'];
     firstName=data['firstName'];
+    verificationStatus= data['verificationStatus'];
     lastName=data['lastName'];
     age=data['age'];
     weight=data['weight'];
@@ -43,6 +45,7 @@ class PatientModel{
     data['height']=height;
     data['gender']=gender;
     data['allergies']=allergies;
+    data['verificationStatus']= verificationStatus;
     data['userId']=userId;
     data['createdAt']=createdAt;
     data['medicalConditions']=medicalConditions;

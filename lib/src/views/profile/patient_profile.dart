@@ -63,8 +63,7 @@ class PatientProfile extends ConsumerWidget {
             ),
           ),
          Gap(64.h),
-          ProfileDetailTile(description: userController.patient!.surName,title: 'Surname',),
-          Gap(16.h),
+
           ProfileDetailTile(description: userController.patient!.firstName,title: 'First name',),
           Gap(16.h),
           ProfileDetailTile(description: userController.patient!.lastName,title: 'Last name',),
@@ -99,8 +98,9 @@ class ProfileDetailTile extends StatelessWidget {
 
       child: Row(
         children: [
-          Text('$title:',style:GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w600,),overflow: TextOverflow.ellipsis,),
-          Text(' $description',style:GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400))
+          
+          Text('$title:',style:GoogleFonts.poppins(color: AppTheme.black2,fontSize: 15.sp,fontWeight: FontWeight.w600,),overflow: TextOverflow.ellipsis,),
+          Text(' $description',style:GoogleFonts.poppins(color: AppTheme.black3,fontSize: 13.sp,fontWeight: FontWeight.w400)),
 
         ],
       ),

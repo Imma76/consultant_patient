@@ -1,4 +1,5 @@
 
+import 'package:consult_patient/src/views/authentication/forgot_password.dart';
 import 'package:consult_patient/src/views/authentication/login.dart';
 import 'package:consult_patient/src/views/authentication/sign_up.dart';
 import 'package:consult_patient/src/views/booking/booking_confirmation.dart';
@@ -21,4 +22,5 @@ Map<String,WidgetBuilder>routes={
   ConfirmationScreen.id:(context)=>ConfirmationScreen(),
   DateSlot.id:(context)=>DateSlot(),
   Base.id:(context)=>Base(),
+  ForgotPassword.id:(context)=>ForgotPassword()
 };

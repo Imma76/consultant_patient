@@ -108,14 +108,14 @@ class _SignUpState extends ConsumerState<SignUpScreen> {
                   ),
                 ),
                 Gap(44.h),
-                ElevatedButton(onPressed: ()async{
+                authController.loadAuth?Indicator2(color: AppTheme.white2,):  ElevatedButton(onPressed: ()async{
                   pageController
                   .nextPage(duration: Duration(milliseconds: 500), curve: Curves.linear);
                   if(currentIndex ==2&& authController.checkInputForSignUp()){
                     await authController.signUp(centralController);
                     //Navigator.pushNamed(context, Homepage.id);
                   }
-                }, child:  centralController.isAppLoading?Indicator2(color: AppTheme.white2,):Text(currentIndex !=2?'Next':'Sign up',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary2,minimumSize: Size(382.w,58.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), ),
+                }, child:Text(currentIndex !=2?'Next':'Sign up',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary2,minimumSize: Size(382.w,58.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), ),
 
               ],
             ),
@@ -137,10 +137,6 @@ class Field1 extends ConsumerWidget {
       crossAxisAlignment:
       CrossAxisAlignment.start,
       children: [
-        Text('Surname',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 16.sp,fontWeight: FontWeight.w400),),
-        Gap(8.h),
-        InputField(controller: authController.surNameController),
-        Gap(24.h),
         Text('First Name',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
         InputField(controller: authController.firstNameController),
@@ -148,6 +144,8 @@ class Field1 extends ConsumerWidget {
         Text('Last Name',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
         InputField(controller: authController.lastNameController),
+
+
         Gap(24.h),
         Text('Email address',style: GoogleFonts.poppins(color: AppTheme.lightBlack,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
@@ -162,7 +160,7 @@ class Field2 extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context,ref) {
-    final  authController = ref.read(authProvider);
+    final  authController = ref.watch(authProvider);
 
     return Column(
       crossAxisAlignment:
@@ -170,8 +168,23 @@ class Field2 extends ConsumerWidget {
       children: [
         Text('Gender',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
-        InputField(controller: authController.genderController
+        Container(
+          width: double.infinity,
+          child: DropdownButton<String>(
+            isExpanded: true,
+            items: <String>['MALE', 'FEMALE',''].map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            value: authController.genderController.text,
+            onChanged:authController.changeGender
+          ),
         ),
+
+       // InputField(controller: authController.genderController
+       // ),
         Gap(24.h),
         Text('Age',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 16.sp,fontWeight: FontWeight.w400),),
         Gap(8.h),
@@ -215,7 +228,7 @@ class Field3 extends ConsumerWidget {
             padding: const EdgeInsets.all(3.0),
             child: TextFormField(
               controller: authController.medicalConditionsController,
-              keyboardType: TextInputType.number,
+
               maxLines: 5,
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppTheme.white2)),
