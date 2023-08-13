@@ -51,11 +51,69 @@ class AuthController extends ChangeNotifier{
 
 
     final user=await authService.signIn(email: emailController.text.trim(),password: passwordController.text);
+
+
     if(user==false){
       centralState.stopLoading();
       return;
     }
+    final patientMail = await PatientService.findPatientEmail(user.email);
+    if(patientMail == null){
+      showToast("account does not exist");
+      return;
+    }
    await userController.init();
+   if(userController.patient!= null){
+     if(userController.patient!.verificationStatus == 'banned' || userController.patient!.verificationStatus=='restricted') {
+
+
+
+       showDialog(context: navigatorKey.currentState!.context, builder: (context){
+         return Dialog(
+           backgroundColor:
+           AppTheme.white
+           ,
+           child: Container(
+             decoration: BoxDecoration(   color:
+             AppTheme.white,borderRadius: BorderRadius.circular(10.r)),
+             height:
+             165.h,
+             width: 390.w,
+
+             child: Column(
+               children: [
+                 Gap(22.h),
+                 Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: Text('Your Account has been ${userController.patient!.verificationStatus} by the admin ',textAlign: TextAlign.center,style: GoogleFonts.dmSans(
+                       color: AppTheme.lightBlack,
+                       fontSize: 16.sp,
+                       fontWeight: FontWeight.w500),),
+                 ),
+
+                 Gap(24.h),
+                 ElevatedButton(onPressed: () async{
+                   print('rating');
+                   Navigator.pop(context);
+                 },
+                   child: Text('Okay', style: GoogleFonts.poppins(
+                       color: AppTheme.white,
+                       fontSize: 20.sp,
+                       fontWeight: FontWeight.w700),),
+                   style: ElevatedButton.styleFrom(primary: AppTheme.primary,
+                       minimumSize: Size(108.w, 52.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),),
+               ],
+             ),
+           ),
+
+         );
+       });
+       centralState.stopLoading();
+       return;
+     }
+
+   }
+
   centralState.stopLoading();
    Navigator.pushNamedAndRemoveUntil(navigatorKey!
        .currentContext!, Base.id, (route) => false);

@@ -46,7 +46,7 @@ class ConsultantModel{
     createdAt=Timestamp(data['createdAt'].seconds,data['createdAt'].nanoseconds).toDate();
     phoneNumber=data['phoneNumber'];
     if(data['ratings']!= null)
-    ratings=double.parse(data['ratings'].toString());
+    ratings=double.parse(data['ratings'].toString()??'0');
     stateOfOrigin=data['stateOfOrigin'];
     areaOfSpecialty=data['areaOfSpecialty'];
     consultantId=data['userId'];

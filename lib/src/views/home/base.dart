@@ -1,4 +1,5 @@
 
+import 'package:consult_patient/src/controllers/user_controller.dart';
 import 'package:consult_patient/src/views/appointments/appointment_history.dart';
 import 'package:consult_patient/src/views/medical_history/medical_history.dart';
 import 'package:consult_patient/src/views/profile/patient_profile.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:livechatt/livechatt.dart';
 
 import '../../all_providers/all_providers.dart';
 import '../../themes/app_theme.dart';
@@ -44,6 +46,17 @@ class _BaseState extends ConsumerState<Base> {
 
     ];
     return Scaffold(
+      floatingActionButton: FloatingActionButton(child: Icon(Icons.chat),backgroundColor: AppTheme.primary,onPressed:()async{
+        //
+        // var cmap = <String, String>{
+        //   'org': 'organizationTextController.text',
+        //   'position': 'positionTextController.text'
+        // };
+
+
+        await  Livechat.beginChat('15742248', '', '${userController.patient?.firstName??'enter your name'}','${userController.patient?.email??'enter your email'}', );
+
+      }),
       body:widgetList
       [currentIndex],
       bottomNavigationBar: BottomNavigationBar(

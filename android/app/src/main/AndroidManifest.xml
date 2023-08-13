@@ -5,6 +5,8 @@
         android:label="consult_patient"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+       <activity android:name="com.livechatinc.inappchat.ChatWindowActivity" android:configChanges="orientation|screenSize" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

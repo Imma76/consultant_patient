@@ -15,6 +15,7 @@ class UserController extends ChangeNotifier{
    patient= await PatientService.findPatientById(FirebaseAuth
        .instance.currentUser
    !.uid);
+   print('pateient $patient');
    centralState.stopLoading();
    notifyListeners();
   }

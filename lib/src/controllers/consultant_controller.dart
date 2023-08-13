@@ -30,8 +30,13 @@ class ConsultantController extends ChangeNotifier{
   double? currentRatings,required String? consultantId})async{
     load =true;
     notifyListeners();
-    String calRatings = (currentRatings! + (ratings!/3)).toStringAsFixed(1);
-    double newRatings = double.parse(calRatings);
+
+    double calRatings = ((currentRatings! + ratings)/5);
+    double newRatings = double.parse(calRatings.toString());
+    print('$calRatings $newRatings $ratings heere');
+
+     double newPercentRatings= ((newRatings)/ 5) * 100;
+     print(newPercentRatings);
     final update = await ConsultantService
     .updateConsultantRatings(newRatings, consultantId);
     load =false;

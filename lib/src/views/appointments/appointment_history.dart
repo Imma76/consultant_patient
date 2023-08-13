@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:livechatt/livechatt.dart';
 
 import '../../all_providers/all_providers.dart';
 import '../../themes/app_theme.dart';
@@ -21,6 +22,17 @@ class AppointmentHistory extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appointmentController = ref.watch(appointmentProvider);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(child: Icon(Icons.chat),backgroundColor: AppTheme.primary,onPressed:()async{
+        //
+        // var cmap = <String, String>{
+        //   'org': 'organizationTextController.text',
+        //   'position': 'positionTextController.text'
+        // };
+
+
+        await  Livechat.beginChat('15742248', '', 'enter your name','enter your email', );
+
+      }),
       backgroundColor:
       AppTheme.lightGreen,
       body:Padding(

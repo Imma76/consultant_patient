@@ -45,7 +45,8 @@ dependencies:
   bot_toast:
   cached_network_image:
   google_fonts:
-  flutter_rating_bar:
+  flutter_rating_bar: ^4.0.1
+  percent_indicator:
 
   flutter_screenutil:
   bubble:
@@ -56,6 +57,8 @@ dependencies:
   table_calendar:
   flutter_svg:
   http: ^0.13.6
+  custom_timer: ^0.2.3
+  livechatt: ^1.4.0
 
 
 

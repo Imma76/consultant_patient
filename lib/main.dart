@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:consult_patient/firebase_options.dart';
 import 'package:consult_patient/src/all_providers/all_providers.dart';
 import 'package:consult_patient/src/controllers/central_state.dart';
+import 'package:consult_patient/src/controllers/user_controller.dart';
 import 'package:consult_patient/src/routes/routes.dart';
 import 'package:consult_patient/src/themes/app_theme.dart';
 import 'package:consult_patient/src/utils/widgets/loader.dart';
@@ -23,6 +24,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -105,6 +108,14 @@ class _LoadAppState extends ConsumerState<LoadApp> {
           body:Indicator2());
     }
       if(centralController.isUserPresent){
+        if(userController.patient!= null){
+          if( userController.patient!.verificationStatus == 'banned' || userController.patient!.verificationStatus=='restricted'){
+
+            return WelcomeScreen();
+          }
+
+        }
+
           return Base();
         }
           //c

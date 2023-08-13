@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:livechatt/livechatt.dart';
 
 import '../../../main.dart';
 import '../../all_providers/all_providers.dart';
@@ -41,6 +42,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     print( 'ppp${centralState.isAppLoading}');
     return SafeArea(
       child: Scaffold(
+
+
+
+        floatingActionButton: FloatingActionButton(child: Icon(Icons.chat),backgroundColor: AppTheme.primary,onPressed:()async{
+          //
+          // var cmap = <String, String>{
+          //   'org': 'organizationTextController.text',
+          //   'position': 'positionTextController.text'
+          // };
+
+
+           await  Livechat.beginChat('15742248', '', 'enter your name','enter your email', );
+
+        }),
         body: Padding(
           padding:  EdgeInsets.only(left:24.w,right:24.w),
           child: SingleChildScrollView(

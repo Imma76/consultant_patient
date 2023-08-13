@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../themes/app_theme.dart';
 import '../../utils/widgets/app_bar.dart';
@@ -34,11 +35,14 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
     ref.read(appointmentProvider);
   }
 
+
   @override
   Widget build(BuildContext context) {
     final consultant = ModalRoute.of(context)!.settings.arguments as ConsultantModel;
     final appointmentController= ref.watch(appointmentProvider);
     final consultantController = ref.read(consultantProvider);
+    double ratingCount = (consultant.ratings!/10);
+    print(ratingCount);
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppTheme.backgroundColor,
@@ -153,24 +157,26 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                               children: [
                                 CircleAvatar(backgroundColor: AppTheme.lightBlack,radius: 2,),Gap(4),
 
-                                RichText(
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: 'State of origin:',
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 12.sp,
-                                              color: AppTheme.black2,
-                                              fontWeight: FontWeight.w600)),
-                                      TextSpan(
-                                          text: ' ${consultant!
-                                              .stateOfOrigin} ',
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 12.sp,
-                                              color: AppTheme.black2
-                                              ,
-                                              fontWeight: FontWeight.w400)),
-                                    ],
+                                Expanded(
+                                  child: RichText(overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: 'State of origin:',
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 12.sp,
+                                                color: AppTheme.black2,
+                                                fontWeight: FontWeight.w600)),
+                                        TextSpan(
+                                            text: ' ${consultant!
+                                                .stateOfOrigin} ',
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 12.sp,
+                                                color: AppTheme.black2
+                                                ,
+                                                fontWeight: FontWeight.w400)),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -223,7 +229,42 @@ class _ConsultantProfileState extends ConsumerState<ConsultantProfile> {
                               .poppins(
                               fontSize: 12.sp,
                               color: AppTheme.black2,
-                              fontWeight: FontWeight.w500))
+                              fontWeight: FontWeight.w500)),
+                          // RatingBarIndicator(
+                          //   rating: consultant.ratings??0,
+                          //   itemBuilder: (context, index) => Icon(
+                          //     Icons.star,
+                          //     color: Colors.amber,
+                          //   ),
+                          //   itemCount: 5,
+                          //   itemSize: 20.0,
+                          //   direction: Axis.vertical,
+                          // ),
+
+                          if((ratingCount*100)>=60)
+                           CircularPercentIndicator(
+                            radius: 30.0,
+                            lineWidth: 5.0,
+                            percent: ratingCount,
+                            center: new Text('${ratingCount*100}%'),
+                            progressColor: Colors.green,
+                          ),
+                          if((ratingCount*100)<=50 &&(ratingCount*100)>=30 )
+                            CircularPercentIndicator(
+                              radius: 30.0,
+                              lineWidth: 5.0,
+                              percent: ratingCount,
+                              center: new Text('${ratingCount*100}%'),
+                              progressColor: Colors.yellow,
+                            ),
+                          if((ratingCount*100)<30 )
+                            CircularPercentIndicator(
+                              radius: 30.0,
+                              lineWidth: 5.0,
+                              percent: ratingCount,
+                              center: new Text('${ratingCount*100}%'),
+                              progressColor: Colors.red,
+                            )
                         ],),
                       ),
                       decoration: BoxDecoration(
@@ -308,7 +349,7 @@ tapOnlyMode: true,
                     );
                   });
                 },
-                  child:consultantController.load?Indicator2(color: AppTheme.white,): Text('Rate Dr. Henry Onah', style: GoogleFonts.poppins(
+                  child:consultantController.load?Indicator2(color: AppTheme.white,): Text('Rate Dr. ${consultant.firstName}  ${consultant.lastName}', style: GoogleFonts.poppins(
                       color: AppTheme.white,
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w700),),

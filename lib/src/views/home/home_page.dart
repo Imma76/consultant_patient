@@ -6,12 +6,14 @@ import 'package:consult_patient/src/all_providers/all_providers.dart';
 import 'package:consult_patient/src/models/appointment_model.dart';
 import 'package:consult_patient/src/models/consultant_model.dart';
 import 'package:consult_patient/src/views/profile/consultants_profile.dart';
+import 'package:custom_timer/custom_timer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 import '../../../main.dart';
 import '../../controllers/central_state.dart';
@@ -33,7 +35,8 @@ class Homepage extends ConsumerStatefulWidget {
   ConsumerState createState() => _HomepageState();
 }
 
-class _HomepageState extends ConsumerState<Homepage> {
+class _HomepageState extends ConsumerState<Homepage> with SingleTickerProviderStateMixin {
+  DateTime now = DateTime.now();
 
 
 @override
@@ -71,6 +74,7 @@ String getRandomTip(List<String> tips) {
   int index = random.nextInt(tips.length);
   return tips[index];
 }
+
   @override
   Widget build(BuildContext context) {
     final authController = ref.watch(authProvider);
@@ -149,18 +153,92 @@ String getRandomTip(List<String> tips) {
                       );
                     }
                     if(appointments.appointmentStart!.day == DateTime.now().day&& DateTime.now().isBefore(appointments!.appointmentStart!) ){
+                      late CustomTimerController _controller = CustomTimerController(
+                          vsync: this,
+                          // begin: Duration(hours: now.hour,days: now.day,minutes:  now.minute),
+                          // begin: Duration(hours: userController.consultant!.verificationDate!.hour,days: userController.consultant!.verificationDate!.day,minutes:  userController.consultant!.verificationDate!.minute),
+                          begin: appointments.appointmentStart!.difference(now),
+                          //Duration(hours: now.difference(userController.consultant!.verificationDate!).inHours,days: now.difference(userController.consultant!.verificationDate!).inDays,minutes: now.difference( userController.consultant!.verificationDate!).inMinutes),
+                          end: Duration(),
+                          initialState: CustomTimerState.counting,
+                          interval: CustomTimerInterval.milliseconds
+                      );
                       return Column(
                         children: [
                           Row(
                             children: [
-                              Image.asset('assets/notification_bell.png',height:16.h, width:16.w),Gap(5.w), Text('Pending consultation \n with Dr. henry onah',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
+                              Image.asset('assets/notification_bell.png',height:16.h, width:16.w),Gap(5.w), Text('Pending consultation \n with Dr. ${appointments!.consultant!.firstName} ${appointments!.consultant!.lastName}',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w500)),
 
                             ],
                           ),
+
+
                           Row(
                             children: [
-                              Image.asset('assets/time.png',height:16.h, width:16.w),Gap(5.w),
-                              Text('${appointments.appointmentStart!.hour}:${appointments.appointmentStart!.second}',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w600)),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom:5.0),
+                                child: Image.asset('assets/time.png',height:16.h, width:16.w),
+                              ),
+                              CustomTimer(
+                                  controller: _controller,
+                                  builder: (state, time) {
+
+
+                                    // Build the widget you want!🎉
+
+
+                                    return   Center(
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Gap(5.w),
+                                          time.days.replaceAll('-', '')  == '0'?SizedBox():Column(
+                                            children: [
+                                              Text('${time.days.replaceAll('-', '')}',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w600)),
+                                              Gap(5.h),
+                                             // Text('Days',style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 10.sp,fontWeight: FontWeight.w500)),
+
+                                            ],
+                                          ),
+                                          Gap(21.w),
+                                          time.hours.replaceAll('-', '')  == '0'?SizedBox(): Column(
+                                            children: [
+                                              Text('${time.hours.replaceAll('-', '')}',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w600)),
+                                              Gap(5.h),
+                                           //   Text('Hours',style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 10.sp,fontWeight: FontWeight.w500)),
+
+                                            ],
+                                          ),
+                                          Gap(21.w),
+                                          Column(
+                                            children: [
+                                              Text('${time.minutes.replaceAll('-', '')}',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w600)),
+                                              Gap(5.h),
+                                             // Text('Minutes',style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 10.sp,fontWeight: FontWeight.w500)),
+
+                                            ],
+                                          ),
+                                          Gap(21.w),
+                                          Column(
+                                            children: [
+                                              Text('${time.seconds.replaceAll('-', '')}',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w600)),
+                                              Gap(5.h),
+                                            //  Text('Seconds',style:  GoogleFonts.poppins(color: AppTheme.white,fontSize: 10.sp,fontWeight: FontWeight.w500)),
+
+                                            ],
+                                          ),
+
+                                          Gap(21.w),
+
+
+
+                                        ],
+                                      ),
+                                    );
+                                  }
+                              ),
+                              ///Text('${DateFormat('HH:mm').format(appointments.appointmentStart!)}',style: GoogleFonts.poppins(color: AppTheme.black2,fontSize: 12.sp,fontWeight: FontWeight.w600)),
                             ],
                           )
                         ],

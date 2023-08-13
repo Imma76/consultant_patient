@@ -1,15 +1,81 @@
 import 'package:consult_patient/src/themes/app_theme.dart';
 import 'package:consult_patient/src/views/authentication/login.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../all_providers/all_providers.dart';
+import '../controllers/user_controller.dart';
 
-class WelcomeScreen extends StatelessWidget {
+
+class WelcomeScreen extends ConsumerStatefulWidget {
   static const id ='welcome_screen';
   const WelcomeScreen({Key? key}) : super(key: key);
 
+  @override
+  ConsumerState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+
+
+    if(userController.patient!= null){
+      if(userController.patient!.verificationStatus == 'banned' || userController.patient!.verificationStatus=='restricted') {
+
+
+
+        showDialog(context: context, builder: (context){
+      return Dialog(
+        backgroundColor:
+        AppTheme.white
+        ,
+        child: Container(
+          decoration: BoxDecoration(   color:
+          AppTheme.white,borderRadius: BorderRadius.circular(10.r)),
+          height:
+          165.h,
+          width: 390.w,
+
+          child: Column(
+            children: [
+              Gap(22.h),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Your Account has been ${userController.patient!.verificationStatus} by the admin ',textAlign: TextAlign.center,style: GoogleFonts.dmSans(
+                    color: AppTheme.lightBlack,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500),),
+              ),
+
+              Gap(24.h),
+              ElevatedButton(onPressed: () async{
+                print('rating');
+                Navigator.pop(context);
+              },
+                child: Text('Okay', style: GoogleFonts.poppins(
+                    color: AppTheme.white,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w700),),
+                style: ElevatedButton.styleFrom(primary: AppTheme.primary,
+                    minimumSize: Size(108.w, 52.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),),
+            ],
+          ),
+        ),
+
+      );
+    });
+      }}
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -93,7 +159,7 @@ class WelcomeScreen extends StatelessWidget {
                 Navigator.pushNamed(context, LoginScreen.id);
 
               }, child:Text('Get Started',style: GoogleFonts.poppins(color: AppTheme.white,fontSize: 24.sp,fontWeight: FontWeight.w700),),style: ElevatedButton.styleFrom(primary: AppTheme.primary,minimumSize: Size(382.w,58.h),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), )
-              
+
             ],
           ),
         ),

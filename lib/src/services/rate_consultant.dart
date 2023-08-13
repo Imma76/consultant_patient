@@ -81,4 +81,19 @@ class ConsultantService{
       return false;
     }
     }
+  static Future findConsultantEmail(String email)async{
+    try{
+      QuerySnapshot user = await Collections.consultant.where("email",isEqualTo:email).get();
+      if(user.docs.isNotEmpty){
+        return '';
+      }
+      return null;
+
+    }on SocketException{
+      return null;
+    } catch(e){
+      print(e.toString());
+      return null;
+    }
+  }
 }
